@@ -1,0 +1,54 @@
+﻿<Page
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    x:Class="Karty_Przeciwko_Ludzkości.Views.Karty_Przeciwko_Ludzkości"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Karty_Przeciwko_Ludzkości.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:scripts="using:Karty_Przeciwko_Ludzkości.Scripts"
+    mc:Ignorable="d"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <DataTemplate x:DataType="scripts:Card" x:Key="CardDataTemplate">
+            <StackPanel HorizontalAlignment="Center">
+                <!--<Image Width="150" Source="{x:Bind CardImageSource}" HorizontalAlignment="Center"/>-->
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Width="270" Height="370"
+                      Padding="12" CornerRadius="12">
+                    <TextBlock FontSize="20" Text="{x:Bind CardContent}" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,0" Foreground="White"/>
+                    <TextBlock FontSize="14" Text="Karty Przeciwko Ludzkości" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Foreground="White"/>
+                    <SymbolIcon Symbol="Mail" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <GridView x:Name="gridView" VerticalAlignment="Center" HorizontalAlignment="Right" MaxWidth="1600" MaxHeight="775" MinWidth="1350" MinHeight="775" ItemsSource="{x:Bind Cards}"
+                  ItemTemplate="{StaticResource CardDataTemplate}" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Padding="12" CornerRadius="12" Visibility="Visible">
+            </GridView>
+
+            <Grid x:Name="gridCzas" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" VerticalAlignment="Top" HorizontalAlignment="Center"
+              Width="100" Height="50" Margin="0,20,0,0" Padding="12" CornerRadius="12" Visibility="Collapsed">
+                <TextBlock x:Name="gridCzasTextBlockCzas" HorizontalAlignment="Center" VerticalAlignment="Center" Text="60" FontSize="25"/>
+            </Grid>
+
+            <Grid x:Name="gridBlackCard" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" VerticalAlignment="Center" HorizontalAlignment="Left"
+              Height="600" Width="400" Margin="30,0,0,0" Padding="12" CornerRadius="12" Visibility="Visible">
+                <TextBlock x:Name="gridBlackCardTextBlockCardContent" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="350" Margin="0,30,0,0"
+                       Text="Why is the sun black?" FontSize="50" TextWrapping="Wrap"/>
+                <SymbolIcon Symbol="Admin" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,5"/>
+                <TextBlock Text="Cards Against Humanity" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="20" Margin="0,0,5,5"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

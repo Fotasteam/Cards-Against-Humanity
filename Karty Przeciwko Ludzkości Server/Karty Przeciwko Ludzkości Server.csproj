@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <RootNamespace>Karty_Przeciwko_Ludzkości_Server</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Cards\BlackCards1.txt" />
+    <None Remove="Cards\BlackCards2.txt" />
+    <None Remove="Cards\BlackCards3.txt" />
+    <None Remove="Cards\WhiteCards.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Cards\BlackCards1.txt" />
+    <Content Include="Cards\BlackCards2.txt" />
+    <Content Include="Cards\BlackCards3.txt" />
+    <Content Include="Cards\WhiteCards.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WatsonTcp" Version="5.1.0" />
+  </ItemGroup>
+
+</Project>

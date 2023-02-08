@@ -1,0 +1,35 @@
+﻿<Page
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    x:Class="Karty_Przeciwko_Ludzkości.Views.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Karty_Przeciwko_Ludzkości.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinWidth="1000" MaxWidth="1800" Height="150" CornerRadius="12" Padding="12" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <TextBlock Text="Ustawienia" FontSize="70" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,0,0,0"/>
+        </Grid>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinWidth="1000" MaxWidth="1800" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,150,0,0">
+            <TextBlock Text="Łączność" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
+        </Grid>
+        <Grid MinWidth="1000" MaxWidth="1800" Height="80" VerticalAlignment="Top" HorizontalAlignment="Center" CornerRadius="12"
+              Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="0,175,0,0"
+              Padding="12">
+            <SymbolIcon Symbol="Keyboard" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <TextBlock Text="Adres IP Hosta" FontSize="25" HorizontalAlignment="left" VerticalAlignment="center" Margin="60,0,0,0"/>
+            <TextBox x:Name="textBoxIpAddress" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="790,0,0,0" Width="200" TextChanged="textBoxIpAddress_TextChanged" Loaded="textBoxIpAddress_Loaded"/>
+        </Grid>
+        <Grid MinWidth="1000" MaxWidth="1800" Height="80" VerticalAlignment="Top" HorizontalAlignment="Center" CornerRadius="12"
+              Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="0,265,0,0"
+              Padding="12">
+            <SymbolIcon Symbol="People" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <TextBlock Text="Nick Gracza" FontSize="25" HorizontalAlignment="left" VerticalAlignment="center" Margin="60,0,0,0"/>
+            <TextBox x:Name="textBoxNick" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="790,0,0,0" Width="200" TextChanged="textBoxNick_TextChanged" Loaded="textBoxNick_Loaded"/>
+        </Grid>
+    </Grid>
+</Page>
