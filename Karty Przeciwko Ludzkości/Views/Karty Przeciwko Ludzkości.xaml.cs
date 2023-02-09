@@ -47,11 +47,25 @@ namespace Karty_Przeciwko_Ludzkości.Views
         WatsonTcpClient tcpClient;
         public Karty_Przeciwko_Ludzkości()
         {
-
+            // ---TEMPORARY
 
             CardManager cardManager = new CardManager();
 
-            cardManager.getRandomBlackCard();
+            List<Card> cards = new List<Card>();
+            cards = cardManager.getRandomBlackCard();
+
+            string test = "";
+            foreach (string line in ((App)Windows.UI.Xaml.Application.Current).test)
+            {
+                test += line + " ";
+            }
+
+            var messageDialog = new MessageDialog(test);
+            messageDialog.Title = "Error";
+            messageDialog.ShowAsync();
+
+            // ---TEMPORARY
+
             this.InitializeComponent();
             if (((App)Windows.UI.Xaml.Application.Current).ipAddress != null)
             {
@@ -67,9 +81,9 @@ namespace Karty_Przeciwko_Ludzkości.Views
             }
             else
             {
-                var messageDialog = new MessageDialog("Brak adresu IP");
-                messageDialog.Title = "Error";
-                messageDialog.ShowAsync();
+                //var messageDialog = new MessageDialog("Brak adresu IP");
+                //messageDialog.Title = "Error";
+                //messageDialog.ShowAsync();
             }
             //tcpClient.Connect();
 

@@ -1,12 +1,19 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Shapes;
+using static System.Net.Mime.MediaTypeNames;
+using Karty_Przeciwko_Ludzkości;
 
 namespace Karty_Przeciwko_Ludzkości.Scripts
 {
@@ -19,10 +26,10 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
 
     public class CardManager
     {
-        public List<Card> BlackCards1;
-        public List<Card> BlackCards2;
-        public List<Card> BlackCards3;
-        public List<Card> WhiteCards;
+        List<Card> BlackCards1 = new List<Card>() { };
+        List<Card> BlackCards2 = new List<Card>() { };
+        List<Card> BlackCards3 = new List<Card>() { };
+        List<Card> WhiteCards = new List<Card>() { };
 
         public List<Card> GetCards()
         {
@@ -49,18 +56,10 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
             var Cards = new List<Card>();
             Random rand = new Random();
 
-            List<Card> listOfBlackCards = new List<Card>();
-            for (int i = 1; i<= 331; ++i)
-            {
-                //listOfBlackCards.Add(new Card{ CardID = i, CardType = 2, CardContent = sr.ReadLine()});
-            }
-            //sr.Close();
-
             for (int i = 0; i < 5; i++)
             {
                 int r = rand.Next(1, 331 + 1);
-
-
+                //Cards.Add(BlackCards1[0]);
             }
 
             return Cards;
@@ -68,17 +67,31 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
 
         private async void readFromFile(string file)
         {
-            StorageFile storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///" + file));
-
-            StreamReader sr = new StreamReader(await storageFile.OpenStreamForReadAsync());
+            string output;
+            using (HttpClient client = new HttpClient())
+            {
+                output = await client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/Karty%20Przeciwko%20Ludzko%C5%9Bci/Cards/"+file);
+            }
 
             switch (file)
             {
                 case "BlackCards1.ini":
-                    for (int id = 0; !sr.EndOfStream; ++id)
+                    var sr = new StringReader(output);
+                    int id = -1;
+                    string line = null;
+                    while (true)
                     {
-                        BlackCards1.Add(new Card { CardID = id, CardType = 2, CardContent = sr.ReadLine()});
+                        ++id;
+                        line = sr.ReadLine();
+                        if (line != null)
+                        {
+                            BlackCards1.Add(new Card { CardID = id, CardType = 2, CardContent = line });
+                            ((App)Windows.UI.Xaml.Application.Current).test.Add(line);
+                        }
+                        else
+                            break;
                     }
+
                     break;
             }
         }

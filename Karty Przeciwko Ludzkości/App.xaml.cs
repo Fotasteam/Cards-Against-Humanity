@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Karty_Przeciwko_Ludzkości.Scripts;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,6 +30,7 @@ namespace Karty_Przeciwko_Ludzkości
         /// </summary>
         public string playerNick { get; set; }
         public string ipAddress { get; set; }
+        public List<string> test { get; set; }
 
         public App()
         {
