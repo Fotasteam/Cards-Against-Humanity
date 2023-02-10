@@ -125,7 +125,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         }
                         break;
                     case 4:
-                        blackCard.CardID = int.Parse(message);
+                        blackCard.CardID = int.Parse(message); //object not set to reference...
                         blackCard.CardType = int.Parse(message);
 
                         CardManager cardManager = new CardManager();
