@@ -47,24 +47,13 @@ namespace Karty_Przeciwko_Ludzkości.Views
         WatsonTcpClient tcpClient;
         public Karty_Przeciwko_Ludzkości()
         {
-            // ---TEMPORARY
-
             CardManager cardManager = new CardManager();
 
-            List<Card> cards = new List<Card>();
-            cards = cardManager.getRandomBlackCard();
+            //List<Card> cards = cardManager.getRandomBlackCard();
 
-            string test = "";
-            foreach (string line in ((App)Windows.UI.Xaml.Application.Current).test)
-            {
-                test += line + " ";
-            }
-
-            var messageDialog = new MessageDialog(test);
-            messageDialog.Title = "Error";
-            messageDialog.ShowAsync();
-
-            // ---TEMPORARY
+            //var messageDialog = new MessageDialog("Brak adresu IP");
+            //messageDialog.Title = "Error";
+            //messageDialog.ShowAsync();
 
             this.InitializeComponent();
             if (((App)Windows.UI.Xaml.Application.Current).ipAddress != null)
@@ -85,10 +74,9 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 //messageDialog.Title = "Error";
                 //messageDialog.ShowAsync();
             }
-            //tcpClient.Connect();
 
             CardManager manager = new CardManager();
-            Cards = manager.GetCards();
+            Cards = manager.getRandomBlackCard();
         }
 
         int playerAmmount = 0; //zresetowac to przy restarcie rundy!!!

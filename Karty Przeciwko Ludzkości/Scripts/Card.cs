@@ -26,11 +26,6 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
 
     public class CardManager
     {
-        List<Card> BlackCards1 = new List<Card>() { };
-        List<Card> BlackCards2 = new List<Card>() { };
-        List<Card> BlackCards3 = new List<Card>() { };
-        List<Card> WhiteCards = new List<Card>() { };
-
         public List<Card> GetCards()
         {
             var Cards = new List<Card>();
@@ -51,50 +46,70 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
 
         public List<Card> getRandomBlackCard()
         {
-            readFromFile("BlackCards1.ini");
+            HttpClient client = new HttpClient();
+            Task<string> task = client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/Karty%20Przeciwko%20Ludzko%C5%9Bci/Cards/BlackCards1.ini");
+            string result = task.Result;
 
-            var Cards = new List<Card>();
+            List<Card> BlackCards = new List<Card>();
+
+            var sr = new StringReader(result);
+            int id = -1;
+            string line = null;
+            while (true)
+            {
+                ++id;
+                line = sr.ReadLine();
+                if (line != null)
+                {
+                    BlackCards.Add(new Card { CardID = id, CardType = 2, CardContent = line });
+                }
+                else
+                    break;
+            }
+
+            var SelectedCards = new List<Card>();
             Random rand = new Random();
 
             for (int i = 0; i < 5; i++)
             {
                 int r = rand.Next(1, 331 + 1);
-                //Cards.Add(BlackCards1[0]);
+                SelectedCards.Add(BlackCards[r]);
             }
 
-            return Cards;
+            client.Dispose();
+
+            return SelectedCards;
         }
 
-        private async void readFromFile(string file)
-        {
-            string output;
-            using (HttpClient client = new HttpClient())
-            {
-                output = await client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/Karty%20Przeciwko%20Ludzko%C5%9Bci/Cards/"+file);
-            }
+        //private async void readFromFile(string file)
+        //{
+        //    string output;
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        output = await client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/Karty%20Przeciwko%20Ludzko%C5%9Bci/Cards/"+file);
+        //    }
 
-            switch (file)
-            {
-                case "BlackCards1.ini":
-                    var sr = new StringReader(output);
-                    int id = -1;
-                    string line = null;
-                    while (true)
-                    {
-                        ++id;
-                        line = sr.ReadLine();
-                        if (line != null)
-                        {
-                            BlackCards1.Add(new Card { CardID = id, CardType = 2, CardContent = line });
-                            ((App)Windows.UI.Xaml.Application.Current).test.Add(line);
-                        }
-                        else
-                            break;
-                    }
+        //    switch (file)
+        //    {
+        //        case "BlackCards1.ini":
+        //            var sr = new StringReader(output);
+        //            int id = -1;
+        //            string line = null;
+        //            while (true)
+        //            {
+        //                ++id;
+        //                line = sr.ReadLine();
+        //                if (line != null)
+        //                {
+        //                    BlackCards1.Add(new Card { CardID = id, CardType = 2, CardContent = line });
+        //                }
+        //                else
+        //                    break;
+        //            }
 
-                    break;
-            }
-        }
+        //            break;
+        //    }
+        //}
         
     }
 
