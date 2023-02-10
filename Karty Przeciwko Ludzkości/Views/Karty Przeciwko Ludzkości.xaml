@@ -20,7 +20,7 @@
                       Padding="12" CornerRadius="12">
                     <TextBlock FontSize="20" Text="{x:Bind CardContent}" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,0" Foreground="White"/>
                     <TextBlock FontSize="14" Text="Karty Przeciwko Ludzkości" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Foreground="White"/>
-                    <SymbolIcon Symbol="Mail" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                    <SymbolIcon Symbol="{x:Bind CardSymbol}" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                 </Grid>
             </StackPanel>
         </DataTemplate>

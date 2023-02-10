@@ -47,14 +47,6 @@ namespace Karty_Przeciwko_Ludzkości.Views
         WatsonTcpClient tcpClient;
         public Karty_Przeciwko_Ludzkości()
         {
-            CardManager cardManager = new CardManager();
-
-            //List<Card> cards = cardManager.getRandomBlackCard();
-
-            //var messageDialog = new MessageDialog("Brak adresu IP");
-            //messageDialog.Title = "Error";
-            //messageDialog.ShowAsync();
-
             this.InitializeComponent();
             if (((App)Windows.UI.Xaml.Application.Current).ipAddress != null)
             {
@@ -74,9 +66,6 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 //messageDialog.Title = "Error";
                 //messageDialog.ShowAsync();
             }
-
-            CardManager manager = new CardManager();
-            Cards = manager.getRandomBlackCard();
         }
 
         int playerAmmount = 0; //zresetowac to przy restarcie rundy!!!
@@ -112,8 +101,17 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             gameState = 1;
                             if (playerNicknames[whoIsHeadPlayer] == nickname)
                             {
-                                //wybor karty czarnej i wyslanie info do serwera
+                                CardManager manager = new CardManager();
+                                Cards = manager.getRandomBlackCard();
+                                gridView.Items.Clear();
 
+                                for (int i = 0; i < Cards.Count; ++i)
+                                {
+                                    gridView.Items.Add(Cards[i]);
+                                }
+                                
+
+                                //po wyborze karty wyslanie info do serwera
 
                                 break;
                             }
