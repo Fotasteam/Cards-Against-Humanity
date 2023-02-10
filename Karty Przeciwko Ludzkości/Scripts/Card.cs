@@ -62,6 +62,50 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
             client.Dispose();
             return SelectedCards;
         }
+
+        public Card getBlackCardFromType(int Type, int ID)
+        {
+            List<Card> BlackCards = new List<Card>();
+            Card blackCard = new Card();
+
+            string fileName = "";
+            HttpClient client = new HttpClient();
+
+            switch (Type)
+            {
+                case 2:
+                    fileName = "BlackCards1.ini";
+                    break;
+            }
+
+            Task<string> task = client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/Karty%20Przeciwko%20Ludzko%C5%9Bci/Cards/" + fileName);
+            string result = task.Result;
+
+            var sr = new StringReader(result);
+            int i = -1;
+            string line = null;
+            while (true)
+            {
+                ++i;
+                line = sr.ReadLine();
+                if (line != null)
+                {
+                    BlackCards.Add(new Card { CardID = i, CardType = 2, CardSymbol = Windows.UI.Xaml.Controls.Symbol.Admin, CardContent = line });
+                }
+                else
+                    break;
+            }
+
+            for (int j = 0; j < BlackCards.Count; ++j)
+            {
+                if (BlackCards[j].CardID == ID)
+                {
+                    blackCard = BlackCards[j];
+                }
+            }
+
+            return blackCard;
+        }
     }
 
     //karty Uzytkownika wylosowac i zapisac do listy!!!

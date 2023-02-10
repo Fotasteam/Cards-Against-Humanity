@@ -9,7 +9,7 @@
   <Identity
     Name="598133d8-759e-4229-b38c-092b11b3db9c"
     Publisher="CN=Maksymilian Stawicki"
-    Version="1.0.4.0" />
+    Version="1.0.5.0" />
 
   <mp:PhoneIdentity PhoneProductId="598133d8-759e-4229-b38c-092b11b3db9c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

@@ -39,6 +39,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
     {
         private List<Card> Cards;
 
+        Card blackCard;
         string nickname = ((App)Windows.UI.Xaml.Application.Current).playerNick;
         List<string> playerNicknames = new List<string>();
         int whoIsHeadPlayer = 0;
@@ -87,9 +88,9 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             }
                             else
                             {
-                                var messageDialog = new MessageDialog(nickname);
-                                messageDialog.Title = "Failed at Parsing: Input string was not in a correct format, message: " + message + ".";
-                                messageDialog.ShowAsync();
+                                //var messageDialog = new MessageDialog(nickname);
+                                //messageDialog.Title = "Failed at Parsing: Input string was not in a correct format, message: " + message + ".";
+                                //messageDialog.ShowAsync();
                             }
 
                         }
@@ -112,12 +113,28 @@ namespace Karty_Przeciwko_Ludzkości.Views
                                 gameState = 2;
                                 break;
                             }
+                            else
+                            {
+                                gameState = 4;
+                            }
                             
                             //wybor karty bialej nie tutaj, po dostaniu info od serwera o karcie czarnej
                             //bedziemy wybierac karty biale
 
                             //serwer: oczekiwanie info o karcie czarnej i wyslanie jej do clientow!!!
                         }
+                        break;
+                    case 4:
+                        blackCard.CardID = int.Parse(message);
+                        blackCard.CardType = int.Parse(message);
+
+                        CardManager cardManager = new CardManager();
+                        blackCard = cardManager.getBlackCardFromType(blackCard.CardType, blackCard.CardID);
+
+                        var messageDialog = new MessageDialog(".");
+                        messageDialog.Title = blackCard.CardContent;
+                        messageDialog.ShowAsync();
+
                         break;
                 }
             });

@@ -20,10 +20,12 @@ using WatsonTcp;
 List<Guid> guids = new List<Guid>(); // guid kazdego klienta
 List<string> nicknames = new List<string>();
 
+
 WatsonTcpServer server = new WatsonTcpServer(null, 8001);
 
 bool deactivate = false;
 int gameState = 0;
+int headPlayer = 0;
 
 server.Events.ClientConnected += ClientConnected;
 server.Events.ClientDisconnected += ClientDisconnected;
@@ -39,7 +41,7 @@ while ( !deactivate )
     if (Console.ReadKey().Key != ConsoleKey.Enter) deactivate = true;
 
     bool roundActive = true;
-    int headPlayer = 0;
+    headPlayer = 0;
     gameState = 1;
 
     while (roundActive)
@@ -88,6 +90,19 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
         case 0:
             nicknames.Add(Encoding.UTF8.GetString(args.Data)); //mozliwy bug, guid szybciej dodawany od nickname'u,
             break; // przez co gdy 2 osoby naraz sie polacza id dla guids i nicknames bedzie inne
+        case 2:
+            string id = Encoding.UTF8.GetString(args.Data);
+            string type = Encoding.UTF8.GetString(args.Data);
+
+            foreach (Guid guid in guids)
+            {
+                if (guid != guids[headPlayer])
+                {
+                    server.Send(guid, id);
+                    server.Send(guid, type);
+                }
+            }
+            break;
     }
 
     //Console.WriteLine("Message from " + args.Client.ToString() + ": " + Encoding.UTF8.GetString(args.Data));
