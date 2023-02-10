@@ -60,10 +60,6 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
             }
 
             client.Dispose();
-            var messageDialog = new MessageDialog(SelectedCards[0].CardContent + " " + SelectedCards[1].CardContent);
-            messageDialog.Title = ".";
-            messageDialog.ShowAsync();
-
             return SelectedCards;
         }
     }

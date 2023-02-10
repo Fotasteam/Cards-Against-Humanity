@@ -26,6 +26,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using Karty_Przeciwko_Ludzkości.Scripts;
 using Windows.UI.Composition;
+using System.ServiceModel.Channels;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -37,7 +38,6 @@ namespace Karty_Przeciwko_Ludzkości.Views
     public sealed partial class Karty_Przeciwko_Ludzkości : Page
     {
         private List<Card> Cards;
-
 
         string nickname = ((App)Windows.UI.Xaml.Application.Current).playerNick;
         List<string> playerNicknames = new List<string>();
@@ -109,10 +109,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                                 {
                                     gridView.Items.Add(Cards[i]);
                                 }
-                                
-
-                                //po wyborze karty wyslanie info do serwera
-
+                                gameState = 2;
                                 break;
                             }
                             
@@ -139,6 +136,18 @@ namespace Karty_Przeciwko_Ludzkości.Views
         SyncResponse SyncRequestReceived(SyncRequest req)
         {
             return new SyncResponse(req, "Hello back at you!");
+        }
+
+        private void gridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (playerNicknames[whoIsHeadPlayer] == nickname && gameState == 2)
+            {
+                Card selectedCard = gridView.SelectedItem as Card;
+
+                tcpClient.Send(selectedCard.CardID.ToString());
+                tcpClient.Send(selectedCard.CardType.ToString());
+                gameState = 3;
+            }
         }
     }
 }

@@ -34,7 +34,7 @@
             </Grid.RowDefinitions>
 
             <GridView x:Name="gridView" VerticalAlignment="Center" HorizontalAlignment="Right" MaxWidth="1600" MaxHeight="775" MinWidth="1350" MinHeight="775" ItemsSource="{x:Bind Cards}"
-                  ItemTemplate="{StaticResource CardDataTemplate}" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Padding="12" CornerRadius="12" Visibility="Visible">
+                  ItemTemplate="{StaticResource CardDataTemplate}" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Padding="12" CornerRadius="12" Visibility="Visible" SelectionChanged="gridView_SelectionChanged">
             </GridView>
 
             <Grid x:Name="gridCzas" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" VerticalAlignment="Top" HorizontalAlignment="Center"
