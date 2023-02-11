@@ -118,9 +118,6 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             {
                                 gameState = 4;
                             }
-                            
-                            //wybor karty bialej nie tutaj, po dostaniu info od serwera o karcie czarnej
-                            //bedziemy wybierac karty biale
                         }
                         break;
                     case 4:
@@ -138,8 +135,6 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                             gridBlackCardTextBlockCardContent.Text = blackCard.CardContent;
                             gridBlackCard.Visibility = Visibility.Visible;
-
-                            //losowanie bialych kart i wyswietlanie ich na gridview:
 
                             List<Card> whiteCardGeneratedList = cardManager.getWhiteCards();
                             gridView.Items.Clear();
