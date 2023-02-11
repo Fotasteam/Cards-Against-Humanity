@@ -163,6 +163,8 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         {
                             gridView.Items.Add(card);
                         }
+                        
+
                         break;
                 }
             });
