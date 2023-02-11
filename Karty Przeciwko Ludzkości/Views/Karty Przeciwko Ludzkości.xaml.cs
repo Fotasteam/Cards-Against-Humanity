@@ -125,15 +125,18 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         }
                         break;
                     case 4:
-                        blackCard.CardID = int.Parse(message); //object not set to reference... ZLY PARSING LUB ZLA WIADOMOSC!
-                        blackCard.CardType = int.Parse(message);
-
-                        CardManager cardManager = new CardManager();
-                        blackCard = cardManager.getBlackCardFromType(blackCard.CardType, blackCard.CardID);
-
-                        var messageDialog = new MessageDialog(".");
-                        messageDialog.Title = blackCard.CardContent;
+                        var messageDialog = new MessageDialog(message);
+                        messageDialog.Title = "Dsa";
                         messageDialog.ShowAsync();
+                        //blackCard.CardID = int.Parse(message); //object not set to reference... ZLY PARSING LUB ZLA WIADOMOSC!
+                        //blackCard.CardType = int.Parse(message);
+
+                        //CardManager cardManager = new CardManager();
+                        //blackCard = cardManager.getBlackCardFromType(blackCard.CardType, blackCard.CardID);
+
+                        //var messageDialog = new MessageDialog(".");
+                        //messageDialog.Title = blackCard.CardContent;
+                        //messageDialog.ShowAsync();
 
                         break;
                 }
