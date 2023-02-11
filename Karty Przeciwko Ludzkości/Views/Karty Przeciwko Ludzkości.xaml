@@ -43,7 +43,7 @@
             </Grid>
 
             <Grid x:Name="gridBlackCard" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" VerticalAlignment="Center" HorizontalAlignment="Left"
-              Height="600" Width="400" Margin="30,0,0,0" Padding="12" CornerRadius="12" Visibility="Visible">
+              Height="600" Width="400" Margin="30,0,0,0" Padding="12" CornerRadius="12" Visibility="Collapsed">
                 <TextBlock x:Name="gridBlackCardTextBlockCardContent" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="350" Margin="0,30,0,0"
                        Text="Why is the sun black?" FontSize="50" TextWrapping="Wrap"/>
                 <SymbolIcon Symbol="Admin" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,5"/>

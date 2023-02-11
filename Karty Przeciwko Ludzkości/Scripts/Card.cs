@@ -55,7 +55,7 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
 
             for (int i = 0; i < 5; i++)
             {
-                int r = rand.Next(1, 331 + 1);
+                int r = rand.Next(1, 331);
                 SelectedCards.Add(BlackCards[r]);
             }
 

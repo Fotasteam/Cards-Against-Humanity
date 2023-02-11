@@ -101,6 +101,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                     if (guid != guids[headPlayer])
                     {
                         server.Send(guid, id.ToString());
+                        Console.WriteLine(guid + " ID SENT: " + id);
                     }
                 }
             }
@@ -113,6 +114,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                     if (guid != guids[headPlayer])
                     {
                         server.Send(guid, type.ToString());
+                        Console.WriteLine(guid + " TYPE SENT: " + type);
                     }
                 }
             }

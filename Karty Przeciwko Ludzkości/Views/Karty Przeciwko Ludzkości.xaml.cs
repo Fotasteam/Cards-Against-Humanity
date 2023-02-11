@@ -39,7 +39,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
     {
         private List<Card> Cards;
 
-        Card blackCard;
+        Card blackCard = new Card();
         string nickname = ((App)Windows.UI.Xaml.Application.Current).playerNick;
         List<string> playerNicknames = new List<string>();
         int whoIsHeadPlayer = 0;
@@ -70,6 +70,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
         }
 
         int playerAmmount = 0; //zresetowac to przy restarcie rundy!!!
+        bool didPlayerReceiveID = false; //zresetowac -||-
 
         async void MessageReceived(object sender, MessageReceivedEventArgs args)
         {
@@ -125,18 +126,21 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         }
                         break;
                     case 4:
-                        var messageDialog = new MessageDialog(message);
-                        messageDialog.Title = "Dsa";
-                        messageDialog.ShowAsync();
-                        //blackCard.CardID = int.Parse(message); //object not set to reference... ZLY PARSING LUB ZLA WIADOMOSC!
-                        //blackCard.CardType = int.Parse(message);
+                        CardManager cardManager = new CardManager();
 
-                        //CardManager cardManager = new CardManager();
-                        //blackCard = cardManager.getBlackCardFromType(blackCard.CardType, blackCard.CardID);
+                        if (!didPlayerReceiveID)
+                        {
+                            blackCard.CardID = int.Parse(message);
+                            didPlayerReceiveID = true;
+                        }
+                        else
+                        {
+                            blackCard.CardType = int.Parse(message);
+                            blackCard = cardManager.getBlackCardFromType(blackCard.CardType, blackCard.CardID);
 
-                        //var messageDialog = new MessageDialog(".");
-                        //messageDialog.Title = blackCard.CardContent;
-                        //messageDialog.ShowAsync();
+                            gridBlackCardTextBlockCardContent.Text = blackCard.CardContent;
+                            gridBlackCard.Visibility = Visibility.Visible;
+                        }
 
                         break;
                 }
@@ -167,6 +171,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 tcpClient.Send(selectedCard.CardID.ToString());
                 tcpClient.Send(selectedCard.CardType.ToString());
                 gameState = 3;
+                gridView.Items.Clear();
             }
         }
     }
