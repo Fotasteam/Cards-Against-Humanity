@@ -121,8 +121,6 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             
                             //wybor karty bialej nie tutaj, po dostaniu info od serwera o karcie czarnej
                             //bedziemy wybierac karty biale
-
-                            //serwer: oczekiwanie info o karcie czarnej i wyslanie jej do clientow!!!
                         }
                         break;
                     case 4:
@@ -140,8 +138,18 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                             gridBlackCardTextBlockCardContent.Text = blackCard.CardContent;
                             gridBlackCard.Visibility = Visibility.Visible;
-                        }
 
+                            //losowanie bialych kart i wyswietlanie ich na gridview:
+
+                            List<Card> whiteCardGeneratedList = cardManager.getWhiteCards();
+                            gridView.Items.Clear();
+
+                            foreach (Card card in whiteCardGeneratedList)
+                            {
+                                gridView.Items.Add(card);
+                            }
+                            gameState = 5;
+                        }
                         break;
                 }
             });
@@ -165,6 +173,16 @@ namespace Karty_Przeciwko_Ludzkości.Views
         private void gridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (playerNicknames[whoIsHeadPlayer] == nickname && gameState == 2)
+            {
+                Card selectedCard = gridView.SelectedItem as Card;
+
+                tcpClient.Send(selectedCard.CardID.ToString());
+                tcpClient.Send(selectedCard.CardType.ToString());
+                gameState = 3;
+                gridView.Items.Clear();
+                blackCard = selectedCard;
+            }
+            else if (gameState == 5)
             {
                 Card selectedCard = gridView.SelectedItem as Card;
 

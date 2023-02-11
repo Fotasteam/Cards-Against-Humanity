@@ -106,6 +106,51 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
 
             return blackCard;
         }
+
+        public List<Card> getWhiteCards()
+        {
+            List<Card> Cards = new List<Card>();
+
+            HttpClient client = new HttpClient();
+            Task<string> task = client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/Karty%20Przeciwko%20Ludzko%C5%9Bci/Cards/WhiteCards.ini");
+            string result = task.Result;
+
+            var sr = new StringReader(result);
+            int i = -1;
+            string line = null;
+            while (true)
+            {
+                ++i;
+                line = sr.ReadLine();
+                if (line != null)
+                {
+                    Cards.Add(new Card { CardID = i, CardType = 1, CardSymbol = Windows.UI.Xaml.Controls.Symbol.Mail, CardContent = line });
+                }
+                else
+                    break;
+            }
+
+            List<Card> SelectedCards = new List<Card>();
+            List<int> RandomInts = new List<int>();
+
+            for (int j = 0; j < 10;)
+            {
+                Random rand = new Random();
+                int r = rand.Next(0, Cards.Count);
+
+                if (RandomInts.Contains(r))
+                    continue;
+                RandomInts.Add(r);
+                ++j;
+            }
+
+            for (int j = 0; j < RandomInts.Count; ++j)
+            {
+                SelectedCards.Add(new Card { CardID = Cards[RandomInts[j]].CardID, CardType = 1, CardContent = Cards[RandomInts[j]].CardContent, CardSymbol = Cards[RandomInts[j]].CardSymbol });
+            }
+
+            return SelectedCards;
+        } 
     }
 
     //karty Uzytkownika wylosowac i zapisac do listy!!!
