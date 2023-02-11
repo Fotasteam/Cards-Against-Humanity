@@ -39,6 +39,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
     {
         private List<Card> Cards;
 
+        List<Card> selectedWhiteCards = new List<Card>();
         Card blackCard = new Card();
         string nickname = ((App)Windows.UI.Xaml.Application.Current).playerNick;
         List<string> playerNicknames = new List<string>();
@@ -63,14 +64,15 @@ namespace Karty_Przeciwko_Ludzkości.Views
             }
             else
             {
-                //var messageDialog = new MessageDialog("Brak adresu IP");
-                //messageDialog.Title = "Error";
-                //messageDialog.ShowAsync();
+                var messageDialog = new MessageDialog("Brak adresu IP");
+                messageDialog.Title = "Error";
+                messageDialog.ShowAsync();
             }
         }
 
         int playerAmmount = 0; //zresetowac to przy restarcie rundy!!!
         bool didPlayerReceiveID = false; //zresetowac -||-
+        List<int> idOfWhiteCards = new List<int>();
 
         async void MessageReceived(object sender, MessageReceivedEventArgs args)
         {
@@ -89,9 +91,9 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             }
                             else
                             {
-                                //var messageDialog = new MessageDialog(nickname);
-                                //messageDialog.Title = "Failed at Parsing: Input string was not in a correct format, message: " + message + ".";
-                                //messageDialog.ShowAsync();
+                                var messageDialog = new MessageDialog(nickname);
+                                messageDialog.Title = "Failed at Parsing: Input string was not in a correct format, message: " + message + ".";
+                                messageDialog.ShowAsync();
                             }
 
                         }
@@ -146,6 +148,22 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             gameState = 5;
                         }
                         break;
+                    case 3:
+                        if (idOfWhiteCards.Count != playerAmmount)
+                        {
+                            idOfWhiteCards.Add(int.Parse(message));
+                            break;
+                        }
+ 
+                        CardManager managerCard = new CardManager();
+                        selectedWhiteCards = managerCard.getWhiteCardsFromID(idOfWhiteCards);
+
+                        gridView.Items.Clear();
+                        foreach (Card card in selectedWhiteCards)
+                        {
+                            gridView.Items.Add(card);
+                        }
+                        break;
                 }
             });
         }
@@ -182,7 +200,6 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 Card selectedCard = gridView.SelectedItem as Card;
 
                 tcpClient.Send(selectedCard.CardID.ToString());
-                tcpClient.Send(selectedCard.CardType.ToString());
                 gameState = 3;
                 gridView.Items.Clear();
             }

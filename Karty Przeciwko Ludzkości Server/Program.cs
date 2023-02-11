@@ -26,7 +26,9 @@ WatsonTcpServer server = new WatsonTcpServer(null, 8001);
 bool deactivate = false;
 int gameState = 0;
 int headPlayer = 0;
-bool didServerReceiveID = false;
+bool didServerReceiveIDBlack = false;
+int receivedWhiteCards = 0;
+List<int> listOfEverybodysWhiteCardID = new List<int>();
 
 server.Events.ClientConnected += ClientConnected;
 server.Events.ClientDisconnected += ClientDisconnected;
@@ -92,7 +94,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
             nicknames.Add(Encoding.UTF8.GetString(args.Data)); //mozliwy bug, guid szybciej dodawany od nickname'u,
             break; // przez co gdy 2 osoby naraz sie polacza id dla guids i nicknames bedzie inne
         case 2:
-            if (!didServerReceiveID)
+            if (!didServerReceiveIDBlack)
             {
                 int id = int.Parse(Encoding.UTF8.GetString(args.Data));
 
@@ -118,6 +120,25 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                     }
                 }
             }
+
+            gameState = 3;
+            break;
+        case 3:
+            listOfEverybodysWhiteCardID.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
+
+            receivedWhiteCards++;
+            if (receivedWhiteCards == guids.Count-1)
+            {
+                foreach (Guid guid in guids)
+                {
+                    foreach (int id in listOfEverybodysWhiteCardID)
+                    {
+                        server.Send(guid, id.ToString());
+                    }
+                }
+            }
+
+            //inny gamestate?
             break;
     }
 

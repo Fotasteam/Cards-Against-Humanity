@@ -104,6 +104,7 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
                 }
             }
 
+            client.Dispose();
             return blackCard;
         }
 
@@ -149,9 +150,41 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
                 SelectedCards.Add(new Card { CardID = Cards[RandomInts[j]].CardID, CardType = 1, CardContent = Cards[RandomInts[j]].CardContent, CardSymbol = Cards[RandomInts[j]].CardSymbol });
             }
 
+            client.Dispose();
             return SelectedCards;
-        } 
-    }
+        }
+        
+        public List<Card> getWhiteCardsFromID(List<int> idOfWhiteCards)
+        {
+            List<Card> Cards = new List<Card>();
+            List<Card> selectedCards = new List<Card>();
 
-    //karty Uzytkownika wylosowac i zapisac do listy!!!
+            HttpClient client = new HttpClient();
+            Task<string> task = client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/Karty%20Przeciwko%20Ludzko%C5%9Bci/Cards/WhiteCards.ini");
+            string result = task.Result;
+
+            var sr = new StringReader(result);
+            int i = -1;
+            string line = null;
+            while (true)
+            {
+                ++i;
+                line = sr.ReadLine();
+                if (line != null)
+                {
+                    Cards.Add(new Card { CardID = i, CardType = 1, CardSymbol = Windows.UI.Xaml.Controls.Symbol.Mail, CardContent = line });
+                }
+                else
+                    break;
+            }
+
+            foreach (int id in idOfWhiteCards)
+            {
+                selectedCards.Add(Cards[id]);
+            }
+
+            client.Dispose();
+            return selectedCards;
+        }
+    }
 }
