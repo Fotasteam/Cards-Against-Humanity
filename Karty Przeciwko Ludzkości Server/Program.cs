@@ -10,16 +10,8 @@ using System.Text.Json;
 
 using WatsonTcp;
 
-// -----------------------
-
-//matos - 192.168.1.74
-
-//ja - 192.168.1.81 // 192.168.1.81:8001
-
-// ----------------------
 List<Guid> guids = new List<Guid>(); // guid kazdego klienta
 List<string> nicknames = new List<string>();
-
 
 WatsonTcpServer server = new WatsonTcpServer(null, 8001);
 
@@ -72,9 +64,6 @@ while ( !deactivate )
     }
 }
 
-//server.Send(guid, "Hello, client!");
-
-//EVENTS:
 void ClientConnected(object sender, ConnectionEventArgs args)
 {
     Console.WriteLine("Client connected: " + args.Client.ToString());
@@ -106,6 +95,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                         Console.WriteLine(guid + " ID SENT: " + id);
                     }
                 }
+                didServerReceiveIDBlack = true;
             }
             else
             {
@@ -119,21 +109,21 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                         Console.WriteLine(guid + " TYPE SENT: " + type);
                     }
                 }
+                gameState = 3;
             }
-
-            gameState = 3;
             break;
         case 3:
             listOfEverybodysWhiteCardID.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
 
             receivedWhiteCards++;
-            if (receivedWhiteCards == guids.Count-1)
+            if (receivedWhiteCards == guids.Count - 1)
             {
                 foreach (Guid guid in guids)
                 {
                     foreach (int id in listOfEverybodysWhiteCardID)
                     {
                         server.Send(guid, id.ToString());
+                        Console.WriteLine(guid + " WHITE ID SENT: " + id);
                     }
                 }
             }

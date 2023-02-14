@@ -148,22 +148,34 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             gameState = 5;
                         }
                         break;
-                    case 3:
-                        if (idOfWhiteCards.Count != playerAmmount)
-                        {
-                            idOfWhiteCards.Add(int.Parse(message));
-                            break;
-                        }
- 
-                        CardManager managerCard = new CardManager();
-                        selectedWhiteCards = managerCard.getWhiteCardsFromID(idOfWhiteCards);
-
-                        gridView.Items.Clear();
-                        foreach (Card card in selectedWhiteCards)
-                        {
-                            gridView.Items.Add(card);
-                        }
+                    case 3: 
                         
+                        idOfWhiteCards.Add(int.Parse(message));
+
+                        if (idOfWhiteCards.Count == playerAmmount-1)
+                        {
+                            CardManager managerCard = new CardManager();
+                            selectedWhiteCards = managerCard.getWhiteCardsFromID(idOfWhiteCards);
+
+                            gridView.Items.Clear();
+                            foreach (Card card in selectedWhiteCards)
+                            {
+                                gridView.Items.Add(card);
+                            }
+
+                            gridBlackCardTextBlockCardContent.Text = blackCard.CardContent;
+                            gridBlackCard.Visibility = Visibility.Visible;
+                        }
+
+
+                        //TO NIE DZIALA BO SIE NIGDY NIE WYKONA!!!  
+
+                        var test122 = new MessageDialog(message + " " + idOfWhiteCards.Count + " " + playerAmmount.ToString());
+                        test122.Title = "idofwhitecards == playerAmmount";
+                        test122.ShowAsync();
+
+
+
 
                         break;
                 }

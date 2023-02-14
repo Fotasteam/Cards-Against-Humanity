@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 using Karty_Przeciwko_Ludzkości;
+using System.ServiceModel.Channels;
 
 namespace Karty_Przeciwko_Ludzkości.Scripts
 {
