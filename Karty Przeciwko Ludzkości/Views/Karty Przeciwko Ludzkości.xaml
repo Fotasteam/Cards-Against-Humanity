@@ -18,7 +18,7 @@
                 <!--<Image Width="150" Source="{x:Bind CardImageSource}" HorizontalAlignment="Center"/>-->
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Width="270" Height="370"
                       Padding="12" CornerRadius="12">
-                    <TextBlock FontSize="20" Text="{x:Bind CardContent}" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,0" Foreground="White"/>
+                    <TextBlock FontSize="18" Text="{x:Bind CardContent}" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,0" Foreground="White"/>
                     <TextBlock FontSize="14" Text="Karty Przeciwko Ludzkości" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Foreground="White"/>
                     <SymbolIcon Symbol="{x:Bind CardSymbol}" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                 </Grid>
@@ -33,7 +33,7 @@
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
-            <GridView x:Name="gridView" VerticalAlignment="Center" HorizontalAlignment="Right" MaxWidth="1600" MaxHeight="775" MinWidth="1350" MinHeight="775" ItemsSource="{x:Bind Cards}"
+            <GridView x:Name="gridView" VerticalAlignment="Center" HorizontalAlignment="Right" MaxWidth="1600" MaxHeight="775" MinWidth="1350" MinHeight="775" ItemsSource="{x:Bind Cards}" 
                   ItemTemplate="{StaticResource CardDataTemplate}" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Padding="12" CornerRadius="12" Visibility="Visible" SelectionChanged="gridView_SelectionChanged">
             </GridView>
 

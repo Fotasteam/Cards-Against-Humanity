@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
-
+using System.Transactions;
 using WatsonTcp;
 
 List<Guid> guids = new List<Guid>(); // guid kazdego klienta
@@ -15,12 +15,14 @@ List<string> nicknames = new List<string>();
 
 WatsonTcpServer server = new WatsonTcpServer(null, 8001);
 
-bool deactivate = false;
+bool startGame = false;
+bool gameActive = true;
 int gameState = 0;
 int headPlayer = 0;
 bool didServerReceiveIDBlack = false;
 int receivedWhiteCards = 0;
 List<int> listOfEverybodysWhiteCardID = new List<int>();
+bool newRound = true;
 
 server.Events.ClientConnected += ClientConnected;
 server.Events.ClientDisconnected += ClientDisconnected;
@@ -31,38 +33,58 @@ IEnumerable<ClientMetadata> clients = server.ListClients();
 
 server.Start();
 
-while ( !deactivate )
+while (gameActive && newRound)
 {
-    if (Console.ReadKey().Key != ConsoleKey.Enter) deactivate = true;
-
-    bool roundActive = true;
-    headPlayer = 0;
+    newRound = false;
     gameState = 1;
+    listOfEverybodysWhiteCardID.Clear();
+    headPlayer = 0;
+    didServerReceiveIDBlack = false;
+    receivedWhiteCards = 0;
 
-    while (roundActive)
+    while (!startGame)
     {
-        switch (gameState)
-        {              
-            case 1:
-                Random randomPlayer = new Random();
-                int rand = randomPlayer.Next(0, nicknames.Count);
-                headPlayer = rand;
+        if (Console.ReadKey().Key != ConsoleKey.Enter) startGame = true;
 
-                foreach (Guid guid in guids)
-                {
-                    server.Send(guid, nicknames.Count().ToString());
-                    foreach (string nick in nicknames)
+        bool roundActive = true;
+        headPlayer = 0;
+        gameState = 1;
+
+        if (Console.ReadKey().Key == ConsoleKey.Escape)
+        {
+            gameActive = false;
+            roundActive = false;
+        }
+
+        while (roundActive)
+        {
+            switch (gameState)
+            {
+                case 1:
+                    Random randomPlayer = new Random();
+                    int rand = randomPlayer.Next(0, nicknames.Count);
+                    headPlayer = rand;
+
+                    foreach (Guid guid in guids)
                     {
-                        server.Send(guid, nick);
+                        server.Send(guid, nicknames.Count().ToString());
+                        foreach (string nick in nicknames)
+                        {
+                            server.Send(guid, nick);
+                        }
+                        server.Send(guid, headPlayer.ToString());
                     }
-                    server.Send(guid, headPlayer.ToString());
-                }
 
-                gameState = 2;
-                break;
+                    gameState = 2;
+                    break;
+            }
+
+            if (newRound) break;
         }
     }
 }
+
+Console.WriteLine("Shutting down...");
 
 void ClientConnected(object sender, ConnectionEventArgs args)
 {
@@ -128,7 +150,17 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                 }
             }
 
-            //inny gamestate?
+            Console.WriteLine("[ENTER] - NEW ROUND");
+            Console.WriteLine("Awaiting for further tasks...");
+            if (Console.ReadKey().Key == ConsoleKey.Enter)
+            {
+                newRound = true;
+
+                foreach (Guid guid in guids)
+                {
+                    server.Send(guid, "6");
+                }
+            }
             break;
     }
 

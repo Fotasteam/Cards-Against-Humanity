@@ -167,16 +167,15 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             gridBlackCard.Visibility = Visibility.Visible;
                         }
 
+                        gameState = 6;
+                        break;
+                    case 6:
+                        blackCard = new Card();
+                        gameState = 0;
+                        whoIsHeadPlayer = 0;
 
-                        //TO NIE DZIALA BO SIE NIGDY NIE WYKONA!!!  
-
-                        var test122 = new MessageDialog(message + " " + idOfWhiteCards.Count + " " + playerAmmount.ToString());
-                        test122.Title = "idofwhitecards == playerAmmount";
-                        test122.ShowAsync();
-
-
-
-
+                        gridBlackCard.Visibility = Visibility.Collapsed;
+                        gridView.Items.Clear();
                         break;
                 }
             });
