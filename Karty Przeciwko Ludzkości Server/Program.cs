@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Net;
 using System.Net.Http.Headers;
@@ -10,19 +11,24 @@ using System.Text.Json;
 using System.Transactions;
 using WatsonTcp;
 
+bool shouldAnotherRoundBegin = true;
+bool hasAtLeastOneRoundHappened = false;
+
+Console.ForegroundColor = ConsoleColor.Red;
+Console.WriteLine("This server version is still experimental, expect some minor issues to occur");
+
 List<Guid> guids = new List<Guid>(); // guid kazdego klienta
 List<string> nicknames = new List<string>();
 
 WatsonTcpServer server = new WatsonTcpServer(null, 8001);
 
-bool startGame = false;
-bool gameActive = true;
 int gameState = 0;
 int headPlayer = 0;
 bool didServerReceiveIDBlack = false;
 int receivedWhiteCards = 0;
 List<int> listOfEverybodysWhiteCardID = new List<int>();
-bool newRound = true;
+bool deactivate = false;
+bool roundActive = true;
 
 server.Events.ClientConnected += ClientConnected;
 server.Events.ClientDisconnected += ClientDisconnected;
@@ -33,28 +39,25 @@ IEnumerable<ClientMetadata> clients = server.ListClients();
 
 server.Start();
 
-while (gameActive && newRound)
+while (shouldAnotherRoundBegin)
 {
-    newRound = false;
-    gameState = 1;
-    listOfEverybodysWhiteCardID.Clear();
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine(Environment.NewLine + "[GAME] - NEW ROUND BEGINS:" + Environment.NewLine);
+    shouldAnotherRoundBegin = false;
+    gameState = 0;
     headPlayer = 0;
     didServerReceiveIDBlack = false;
     receivedWhiteCards = 0;
+    listOfEverybodysWhiteCardID.Clear();
+    deactivate = false;
+    roundActive = true;
 
-    while (!startGame)
+    while (!deactivate)
     {
-        if (Console.ReadKey().Key != ConsoleKey.Enter) startGame = true;
+        if (Console.ReadKey().Key != ConsoleKey.Enter || hasAtLeastOneRoundHappened) deactivate = true;
 
-        bool roundActive = true;
         headPlayer = 0;
         gameState = 1;
-
-        if (Console.ReadKey().Key == ConsoleKey.Escape)
-        {
-            gameActive = false;
-            roundActive = false;
-        }
 
         while (roundActive)
         {
@@ -78,23 +81,22 @@ while (gameActive && newRound)
                     gameState = 2;
                     break;
             }
-
-            if (newRound) break;
         }
     }
 }
 
-Console.WriteLine("Shutting down...");
+Console.ForegroundColor = ConsoleColor.Red;
+Console.WriteLine("[SERVER] - SHUTTING DOWN...");
 
 void ClientConnected(object sender, ConnectionEventArgs args)
 {
-    Console.WriteLine("Client connected: " + args.Client.ToString());
+    sendServerMessage("CLIENT CONNECTED: " + args.Client.ToString());
     guids.Add(args.Client.Guid);
 }
 
 void ClientDisconnected(object sender, DisconnectionEventArgs args)
 {
-    Console.WriteLine("Client disconnected: " + args.Client.ToString() + ": " + args.Reason.ToString());
+    sendServerMessage("CLIENT CONNECTED: " + args.Client.ToString() + " REASON: " + args.Reason.ToString());
 }
 
 void MessageReceived(object sender, MessageReceivedEventArgs args)
@@ -114,7 +116,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                     if (guid != guids[headPlayer])
                     {
                         server.Send(guid, id.ToString());
-                        Console.WriteLine(guid + " ID SENT: " + id);
+                        sendServerMessage("RECEIVED HEADPLAYER'S BLACK CARD ID, SENDING IT TO EVERYONE " + guid + " ID SENT: " + id);    
                     }
                 }
                 didServerReceiveIDBlack = true;
@@ -128,7 +130,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                     if (guid != guids[headPlayer])
                     {
                         server.Send(guid, type.ToString());
-                        Console.WriteLine(guid + " TYPE SENT: " + type);
+                        sendServerMessage("RECEIVED HEADPLAYER'S BLACK CARD TYPE, SENDING IT TO EVERYONE " + guid + " TYPE SENT: " + type);
                     }
                 }
                 gameState = 3;
@@ -136,6 +138,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
             break;
         case 3:
             listOfEverybodysWhiteCardID.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
+            sendServerMessage("RECEIVED " + args.Client + " WHITE CARD ID, AWAITING EVERYBODYS CHOICE");
 
             receivedWhiteCards++;
             if (receivedWhiteCards == guids.Count - 1)
@@ -145,22 +148,25 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                     foreach (int id in listOfEverybodysWhiteCardID)
                     {
                         server.Send(guid, id.ToString());
-                        Console.WriteLine(guid + " WHITE ID SENT: " + id);
+                        sendServerMessage("SENDING WHITE CARD ID TO: " + guid + " WHITE ID SENT: " + id);
                     }
                 }
             }
 
-            Console.WriteLine("[ENTER] - NEW ROUND");
-            Console.WriteLine("Awaiting for further tasks...");
+            sendGameMessage("TO START ANOTHER ROUND PRESS ENTER TWICE");
+            sendServerMessage("AWAITING FURTHER TASKS...");
+            hasAtLeastOneRoundHappened = true;
             if (Console.ReadKey().Key == ConsoleKey.Enter)
             {
-                newRound = true;
+                shouldAnotherRoundBegin = true;
 
                 foreach (Guid guid in guids)
                 {
                     server.Send(guid, "6");
+                    sendServerMessage("TELLINGN CLIENTS TO RESET AND PREPARE FOR A NEW ROUND");
                 }
             }
+            roundActive = false;
             break;
     }
 
@@ -170,4 +176,16 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
 SyncResponse SyncRequestReceived(SyncRequest req)
 {
     return new SyncResponse(req, "Hello back at you!");
+}
+
+void sendGameMessage(string message)
+{
+    Console.ForegroundColor = ConsoleColor.Yellow;
+    Console.WriteLine("[GAME] - " + message);
+}
+
+void sendServerMessage(string message)
+{
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.WriteLine("[SERVER] - " + message);
 }

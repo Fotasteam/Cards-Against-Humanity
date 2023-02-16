@@ -173,6 +173,11 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         blackCard = new Card();
                         gameState = 0;
                         whoIsHeadPlayer = 0;
+                        playerAmmount = 0;
+                        didPlayerReceiveID = false;
+                        idOfWhiteCards.Clear();
+                        playerNicknames.Clear();
+                        selectedWhiteCards.Clear();
 
                         gridBlackCard.Visibility = Visibility.Collapsed;
                         gridView.Items.Clear();
