@@ -167,7 +167,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             gridBlackCard.Visibility = Visibility.Visible;
                         }
 
-                        gameState = 6;
+                        gameState = 7;
                         break;
                     case 6:
                         blackCard = new Card();
@@ -181,6 +181,15 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                         gridBlackCard.Visibility = Visibility.Collapsed;
                         gridView.Items.Clear();
+                        break;
+                    case 8:
+                        Card winnerCard = new Card();
+                        int id = int.Parse(message);
+                        var messageDialog222 = new MessageDialog(message);
+                        messageDialog222.Title = message;
+                        messageDialog222.ShowAsync();
+
+                        gameState = 6;
                         break;
                 }
             });
@@ -219,6 +228,14 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                 tcpClient.Send(selectedCard.CardID.ToString());
                 gameState = 3;
+                gridView.Items.Clear();
+            }
+            else if (gameState == 7)
+            {
+                Card selectedCard = gridView.SelectedItem as Card;
+
+                tcpClient.Send(selectedCard.CardID.ToString());
+                gameState = 8;
                 gridView.Items.Clear();
             }
         }

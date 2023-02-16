@@ -29,6 +29,10 @@ int receivedWhiteCards = 0;
 List<int> listOfEverybodysWhiteCardID = new List<int>();
 bool deactivate = false;
 bool roundActive = true;
+int receivedVotes = 0;
+
+List<int> votingCardsIDs = new List<int>();
+List<int> votingCardsVoted = new List<int>();
 
 server.Events.ClientConnected += ClientConnected;
 server.Events.ClientDisconnected += ClientDisconnected;
@@ -51,6 +55,9 @@ while (shouldAnotherRoundBegin)
     listOfEverybodysWhiteCardID.Clear();
     deactivate = false;
     roundActive = true;
+    votingCardsIDs.Clear();
+    votingCardsVoted.Clear();
+    receivedVotes = 0;
 
     while (!deactivate)
     {
@@ -150,6 +157,40 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                         server.Send(guid, id.ToString());
                         sendServerMessage("SENDING WHITE CARD ID TO: " + guid + " WHITE ID SENT: " + id);
                     }
+                }
+            }
+
+            gameState = 4;
+            break;
+
+        case 4:
+            if (votingCardsIDs.Contains(int.Parse(Encoding.UTF8.GetString(args.Data))))
+            {
+                int id = votingCardsIDs.IndexOf(int.Parse(Encoding.UTF8.GetString(args.Data)));
+                votingCardsVoted[id]++;
+            }
+            else
+            {
+                votingCardsIDs.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
+                int id = votingCardsIDs.IndexOf(int.Parse(Encoding.UTF8.GetString(args.Data)));
+                votingCardsVoted[id] = 1;
+            }
+
+            receivedVotes++;
+            if (receivedVotes == guids.Count)
+            {
+                int elementWithMostVotes = 0;
+                foreach (int i in votingCardsVoted)
+                {
+                    if (i>elementWithMostVotes)
+                        elementWithMostVotes = i;
+                }
+
+                int idWithMostVotes = votingCardsVoted.IndexOf(elementWithMostVotes);
+
+                foreach (Guid guid in guids)
+                {
+                    server.Send(guid ,idWithMostVotes.ToString());
                 }
             }
 
