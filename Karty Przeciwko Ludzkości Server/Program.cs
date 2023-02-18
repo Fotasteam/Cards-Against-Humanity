@@ -31,8 +31,7 @@ bool deactivate = false;
 bool roundActive = true;
 int receivedVotes = 0;
 
-List<int> votingCardsIDs = new List<int>();
-List<int> votingCardsVoted = new List<int>();
+int[] votingCardsIDs = new int[1500];
 
 server.Events.ClientConnected += ClientConnected;
 server.Events.ClientDisconnected += ClientDisconnected;
@@ -55,8 +54,7 @@ while (shouldAnotherRoundBegin)
     listOfEverybodysWhiteCardID.Clear();
     deactivate = false;
     roundActive = true;
-    votingCardsIDs.Clear();
-    votingCardsVoted.Clear();
+    votingCardsIDs = new int[1500];
     receivedVotes = 0;
 
     while (!deactivate)
@@ -164,50 +162,44 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
             break;
 
         case 4:
-            if (votingCardsIDs.Contains(int.Parse(Encoding.UTF8.GetString(args.Data))))
-            {
-                int id = votingCardsIDs.IndexOf(int.Parse(Encoding.UTF8.GetString(args.Data)));
-                votingCardsVoted[id]++;
-            }
-            else
-            {
-                votingCardsIDs.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
-                int id = votingCardsIDs.IndexOf(int.Parse(Encoding.UTF8.GetString(args.Data)));
-                votingCardsVoted[id] = 1;
-            }
+            votingCardsIDs[int.Parse(Encoding.UTF8.GetString(args.Data))]++;
 
             receivedVotes++;
+            sendGameMessage("MESSAGE ISSUED BY " + args.Client + " RECEIVED " + receivedVotes + " OUT OF " + guids.Count + " VOTES");
             if (receivedVotes == guids.Count)
             {
                 int elementWithMostVotes = 0;
-                foreach (int i in votingCardsVoted)
+                int indexOfTheElementWithMostVotes = 0;
+                for (int i = 0; i < votingCardsIDs.Length; ++i)
                 {
-                    if (i>elementWithMostVotes)
-                        elementWithMostVotes = i;
+                    if (votingCardsIDs[i] > elementWithMostVotes)
+                    {
+                        elementWithMostVotes = votingCardsIDs[i];
+                        indexOfTheElementWithMostVotes = i;
+                    }
                 }
-
-                int idWithMostVotes = votingCardsVoted.IndexOf(elementWithMostVotes);
 
                 foreach (Guid guid in guids)
                 {
-                    server.Send(guid ,idWithMostVotes.ToString());
+                    server.Send(guid ,indexOfTheElementWithMostVotes.ToString());
                 }
-            }
-
-            sendGameMessage("TO START ANOTHER ROUND PRESS ENTER TWICE");
-            sendServerMessage("AWAITING FURTHER TASKS...");
-            hasAtLeastOneRoundHappened = true;
-            if (Console.ReadKey().Key == ConsoleKey.Enter)
-            {
-                shouldAnotherRoundBegin = true;
-
-                foreach (Guid guid in guids)
+                sendServerMessage("SENDING VOTING RESULTS TO EVERYONE");
+                Console.WriteLine();
+                sendGameMessage("TO START ANOTHER ROUND PRESS ENTER TWICE");
+                sendServerMessage("AWAITING FURTHER TASKS...");
+                hasAtLeastOneRoundHappened = true;
+                if (Console.ReadKey().Key == ConsoleKey.Enter)
                 {
-                    server.Send(guid, "6");
-                    sendServerMessage("TELLINGN CLIENTS TO RESET AND PREPARE FOR A NEW ROUND");
+                    shouldAnotherRoundBegin = true;
+
+                    foreach (Guid guid in guids)
+                    {
+                        server.Send(guid, "6");
+                        sendServerMessage("TELLING CLIENTS TO RESET AND PREPARE FOR A NEW ROUND");
+                    }
                 }
+                roundActive = false;
             }
-            roundActive = false;
             break;
     }
 
