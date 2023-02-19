@@ -27,6 +27,8 @@ using System.Threading;
 using Karty_Przeciwko_Ludzkości.Scripts;
 using Windows.UI.Composition;
 using System.ServiceModel.Channels;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.ApplicationModel.DataTransfer;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -52,21 +54,53 @@ namespace Karty_Przeciwko_Ludzkości.Views
             this.InitializeComponent();
             if (((App)Windows.UI.Xaml.Application.Current).ipAddress != null)
             {
-                serverIp = ((App)Windows.UI.Xaml.Application.Current).ipAddress;
-                tcpClient = new WatsonTcpClient(serverIp, 8001);
-                tcpClient.Events.ServerConnected += ServerConnected;
-                tcpClient.Events.ServerDisconnected += ServerDisconnected;
-                tcpClient.Events.MessageReceived += MessageReceived;
-                tcpClient.Callbacks.SyncRequestReceived = SyncRequestReceived;
+                try
+                {
+                    serverIp = ((App)Windows.UI.Xaml.Application.Current).ipAddress;
+                    tcpClient = new WatsonTcpClient(serverIp, 8001);
+                    tcpClient.Events.ServerConnected += ServerConnected;
+                    tcpClient.Events.ServerDisconnected += ServerDisconnected;
+                    tcpClient.Events.MessageReceived += MessageReceived;
+                    tcpClient.Callbacks.SyncRequestReceived = SyncRequestReceived;
 
-                tcpClient.Connect();
-                tcpClient.Send(nickname);
+                    tcpClient.Connect();
+                    tcpClient.Send(nickname);
+                }
+                catch (Exception ex)
+                {
+                    new ToastContentBuilder()
+                    .AddArgument("conversationId", 9813)
+                    
+                    .AddText("Failed connecting to the server")
+                    .AddText("Timed out. Go to settings and check if the IP address is correct. You can also check the help page for more information.")
+                    .AddText("Exception message copied to clipboard")
+
+                    .AddButton(new ToastButton()
+                        .SetContent("Close")
+                        .AddArgument("action", "dismiss"))
+
+                    .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
+                    .Show();
+
+                    DataPackage dp = new DataPackage();
+                    dp.SetText(ex.Message);
+                    Clipboard.SetContent(dp);
+                }
             }
             else
             {
-                var messageDialog = new MessageDialog("Brak adresu IP");
-                messageDialog.Title = "Error";
-                messageDialog.ShowAsync();
+                new ToastContentBuilder()
+                    .AddArgument("conversationId", 9813)
+
+                    .AddText("Failed connecting to the server")
+                    .AddText("No IP address selected. Go to settings and paste the hosts IP address.")
+
+                    .AddButton(new ToastButton()
+                        .SetContent("Close")
+                        .AddArgument("action", "dismiss"))
+
+                    .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
+                    .Show();
             }
         }
 
@@ -109,6 +143,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                                 Cards = manager.getRandomBlackCard();
                                 gridView.Items.Clear();
 
+                                gridView.Visibility = Visibility.Visible;
                                 for (int i = 0; i < Cards.Count; ++i)
                                 {
                                     gridView.Items.Add(Cards[i]);
@@ -140,6 +175,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                             List<Card> whiteCardGeneratedList = cardManager.getWhiteCards();
                             gridView.Items.Clear();
+                            gridView.Visibility = Visibility.Visible;
 
                             foreach (Card card in whiteCardGeneratedList)
                             {
@@ -158,6 +194,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             selectedWhiteCards = managerCard.getWhiteCardsFromID(idOfWhiteCards);
 
                             gridView.Items.Clear();
+                            gridView.Visibility = Visibility.Visible;
                             foreach (Card card in selectedWhiteCards)
                             {
                                 gridView.Items.Add(card);
@@ -180,11 +217,17 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         selectedWhiteCards.Clear();
 
                         gridBlackCard.Visibility = Visibility.Collapsed;
+                        gridView.Visibility = Visibility.Collapsed;
                         gridView.Items.Clear();
                         break;
                     case 8:
-                        Card winnerCard = new Card();
+                        CardManager cm = new CardManager();
                         int id = int.Parse(message);
+                        Card winnerCard = cm.getWhiteCardFromID(id);
+
+                        gridWinCard.Visibility = Visibility.Visible;
+                        gridWinCardTextBlockCardContent.Text = winnerCard.CardContent;
+
                         var messageDialog222 = new MessageDialog(message);
                         messageDialog222.Title = message;
                         messageDialog222.ShowAsync();
@@ -197,12 +240,34 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
         void ServerConnected(object sender, ConnectionEventArgs args)
         {
-            //Console.WriteLine("Server connected");
+            new ToastContentBuilder()
+                .AddArgument("conversationId", 9813)
+
+                .AddText("Succesfully connected to the server")
+                .AddText("Awaiting message from host")
+
+                .AddButton(new ToastButton()
+                    .SetContent("Close")
+                    .AddArgument("action", "dismiss"))
+
+                .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
+                .Show();
         }
 
         void ServerDisconnected(object sender, DisconnectionEventArgs args)
         {
-            //Console.WriteLine("Server disconnected");
+            new ToastContentBuilder()
+                .AddArgument("conversationId", 9813)
+
+                .AddText("Connection to server lost")
+                .AddText("Reason: " + args.Reason.ToString())
+
+                .AddButton(new ToastButton()
+                    .SetContent("Close")
+                    .AddArgument("action", "dismiss"))
+
+                .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
+                .Show();
         }
 
         SyncResponse SyncRequestReceived(SyncRequest req)
@@ -238,6 +303,23 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 gameState = 8;
                 gridView.Items.Clear();
             }
+
+            gridView.Visibility = Visibility.Collapsed;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //new ToastContentBuilder()
+            //    .AddArgument("conversationId", 9813)
+
+            //    .AddText("Some text")
+
+            //    .AddButton(new ToastButton()
+            //        .SetContent("Archive")
+            //        .AddArgument("action", "archive"))
+
+            //    .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
+            //    .Show();
         }
     }
 }

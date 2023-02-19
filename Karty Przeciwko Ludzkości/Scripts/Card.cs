@@ -187,5 +187,35 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
             client.Dispose();
             return selectedCards;
         }
+
+        public Card getWhiteCardFromID(int id)
+        {
+            List<Card> Cards = new List<Card>();
+            Card Card = new Card();
+
+            HttpClient client = new HttpClient();
+            Task<string> task = client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/Karty%20Przeciwko%20Ludzko%C5%9Bci/Cards/WhiteCards.ini");
+            string result = task.Result;
+
+            var sr = new StringReader(result);
+            int i = -1;
+            string line = null;
+            while (true)
+            {
+                ++i;
+                line = sr.ReadLine();
+                if (line != null)
+                {
+                    Cards.Add(new Card { CardID = i, CardType = 1, CardSymbol = Windows.UI.Xaml.Controls.Symbol.Mail, CardContent = line });
+                }
+                else
+                    break;
+            }
+
+            Card = Cards[id];
+
+            client.Dispose();
+            return Card;
+        }
     }
 }
