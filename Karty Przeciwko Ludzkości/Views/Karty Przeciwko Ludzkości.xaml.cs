@@ -77,6 +77,11 @@ namespace Karty_Przeciwko_Ludzkości.Views
                     DataPackage dp = new DataPackage();
                     dp.SetText(ex.Message);
                     Clipboard.SetContent(dp);
+
+                    InfoBar.Visibility = Visibility.Visible;
+                    InfoBar.Title = "Error";
+                    InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
+                    InfoBar.Message = "Failed connecting to the server. Check notifications for further details.";
                 }
             }
             else
@@ -93,6 +98,11 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                     .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
                     .Show();
+
+                InfoBar.Visibility = Visibility.Visible;
+                InfoBar.Title = "Error";
+                InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
+                InfoBar.Message = "Failed connecting to the server. Check notifications for further details.";
             }
         }
 
@@ -117,9 +127,14 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             }
                             else
                             {
-                                var messageDialog = new MessageDialog(nickname);
-                                messageDialog.Title = "Failed at Parsing: Input string was not in a correct format, message: " + message + ".";
+                                var messageDialog = new MessageDialog("Failed at Parsing: Input string was not in a correct format, message: " + message + ".");
+                                messageDialog.Title = "Error";
                                 messageDialog.ShowAsync();
+
+                                InfoBar.Visibility = Visibility.Visible;
+                                InfoBar.Title = "Error";
+                                InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
+                                InfoBar.Message = "Failed connecting to the server. Report this issue to the developer.";
                             }
 
                         }
@@ -148,6 +163,8 @@ namespace Karty_Przeciwko_Ludzkości.Views
                                 gameState = 4;
                             }
                         }
+
+                        LoadingProgressRing.IsActive = false;
                         break;
                     case 4:
                         CardManager cardManager = new CardManager();
@@ -232,18 +249,18 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
         void ServerConnected(object sender, ConnectionEventArgs args)
         {
-            new ToastContentBuilder()
-                .AddArgument("conversationId", 9813)
+            //new ToastContentBuilder()
+            //    .AddArgument("conversationId", 9813)
 
-                .AddText("Succesfully connected to the server")
-                .AddText("Awaiting message from host")
+            //    .AddText("Succesfully connected to the server")
+            //    .AddText("Awaiting message from host")
 
-                .AddButton(new ToastButton()
-                    .SetContent("Close")
-                    .AddArgument("action", "dismiss"))
+            //    .AddButton(new ToastButton()
+            //        .SetContent("Close")
+            //        .AddArgument("action", "dismiss"))
 
-                .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
-                .Show();
+            //    .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
+            //    .Show();
         }
 
         void ServerDisconnected(object sender, DisconnectionEventArgs args)

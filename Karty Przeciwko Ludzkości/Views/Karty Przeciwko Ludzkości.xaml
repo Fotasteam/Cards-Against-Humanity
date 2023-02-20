@@ -58,5 +58,17 @@
                 <TextBlock Text="Cards Against Humanity" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="20" Margin="0,0,5,5"/>
             </Grid>
         </Grid>
+
+        <muxc:ProgressRing x:Name="LoadingProgressRing" IsActive="True" Height="75" Width="75" />
+
+        <muxc:InfoBar x:Name="InfoBar"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"
+            IsOpen="True" 
+            IsClosable="False"
+            Severity="Informational"
+            Title="Waiting for host"
+            Message="The game will automatically start once the host initiates it."
+            Margin="0,0,10,10"/>
     </Grid>
 </Page>
