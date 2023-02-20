@@ -12,21 +12,13 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
 using WatsonTcp;
 using System.Text;
-using Windows.Media.Protection.PlayReady;
 using Windows.UI.Popups;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Karty_Przeciwko_Ludzkości;
-using Windows.UI.Xaml.Documents;
-using System.Net.Sockets;
-using static System.Net.Mime.MediaTypeNames;
-using System.Threading;
 using Karty_Przeciwko_Ludzkości.Scripts;
-using Windows.UI.Composition;
-using System.ServiceModel.Channels;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.ApplicationModel.DataTransfer;
 
