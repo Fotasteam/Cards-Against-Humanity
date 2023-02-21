@@ -53,5 +53,19 @@ namespace Karty_Przeciwko_Ludzkości.Views
             if (((App)Windows.UI.Xaml.Application.Current).playerNick != null)
                 textBoxNick.Text = ((App)Windows.UI.Xaml.Application.Current).playerNick;
         }
+
+        private void toggleSwitchHints_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (((App)Windows.UI.Xaml.Application.Current).areHintsEnabled)
+                toggleSwitchHints.IsEnabled = true;
+        }
+
+        private void toggleSwitchHints_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (toggleSwitchHints.IsEnabled)
+                ((App)Windows.UI.Xaml.Application.Current).areHintsEnabled = true;
+            else
+                ((App)Windows.UI.Xaml.Application.Current).areHintsEnabled = false;
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace Karty_Przeciwko_Ludzkości
         /// </summary>
         public string playerNick { get; set; }
         public string ipAddress { get; set; }
+        public bool areHintsEnabled { get; set; }
 
         public App()
         {

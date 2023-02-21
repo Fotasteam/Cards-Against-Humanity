@@ -43,7 +43,7 @@
             <SymbolIcon Symbol="Message" HorizontalAlignment="Left" Margin="10,0,0,0"/>
             <TextBlock Text="InfoBar Hints" FontSize="25" HorizontalAlignment="left" VerticalAlignment="center" Margin="60,0,0,21"/>
             <TextBlock Text="This toggle turns on or off hints displayed in the right-bottom corner of the screen." FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,21,0,0"/>
-            <ToggleSwitch x:Name="textBoxIpAddressssdaf" VerticalAlignment="Center" HorizontalAlignment="right" Margin="0,0,0,0" FlowDirection="RightToLeft"/>
+            <ToggleSwitch x:Name="toggleSwitchHints" VerticalAlignment="Center" HorizontalAlignment="right" Margin="0,0,0,0" FlowDirection="RightToLeft" Loaded="toggleSwitchHints_Loaded" IsEnabledChanged="toggleSwitchHints_IsEnabledChanged"/>
         </Grid>
     </Grid>
 </Page>
