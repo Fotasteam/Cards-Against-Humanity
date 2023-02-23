@@ -31,19 +31,19 @@
             <SymbolIcon Symbol="People" HorizontalAlignment="Left" Margin="10,0,0,0"/>
             <TextBlock Text="Nickname" FontSize="25" HorizontalAlignment="left" VerticalAlignment="center" Margin="60,0,0,21"/>
             <TextBlock Text="Before you connect, set a unique nickname for the server to remember." FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,21,0,0"/>
-            <TextBox x:Name="textBoxNick" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="790,0,0,0" Width="200" TextChanged="textBoxNick_TextChanged" Loaded="textBoxNick_Loaded"/>
+            <TextBox x:Name="textBoxNick" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="790,0,0,0" Width="200" TextChanged="textBoxNick_TextChanged" Text="{x:Bind nickname}"/>
         </Grid>
 
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinWidth="1000" MaxWidth="1800" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,360,0,0">
             <TextBlock Text="Preferences" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontWeight="Bold"/>
         </Grid>
         <Grid MinWidth="1000" MaxWidth="1800" Height="80" VerticalAlignment="Top" HorizontalAlignment="Center" CornerRadius="12"
-              Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="0,400,0,0"
-              Padding="12">
+              Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="0,385,0,0"
+              Padding="12" Width="1014">
             <SymbolIcon Symbol="Message" HorizontalAlignment="Left" Margin="10,0,0,0"/>
             <TextBlock Text="InfoBar Hints" FontSize="25" HorizontalAlignment="left" VerticalAlignment="center" Margin="60,0,0,21"/>
-            <TextBlock Text="This toggle turns on or off hints displayed in the right-bottom corner of the screen." FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,21,0,0"/>
-            <ToggleSwitch x:Name="toggleSwitchHints" VerticalAlignment="Center" HorizontalAlignment="right" Margin="0,0,0,0" FlowDirection="RightToLeft" Loaded="toggleSwitchHints_Loaded" IsEnabledChanged="toggleSwitchHints_IsEnabledChanged"/>
+            <TextBlock Text="This toggle turns on or off hints displayed in the right-bottom corner of the screen. Does not turn off error hints." FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,21,0,0"/>
+            <ToggleSwitch x:Name="toggleSwitchHints" VerticalAlignment="Center" HorizontalAlignment="right" Margin="0,0,0,0" FlowDirection="RightToLeft" Toggled="toggleSwitchHints_Toggled" IsOn="{x:Bind isToggled}"/>
         </Grid>
     </Grid>
 </Page>

@@ -28,9 +28,7 @@ namespace Karty_Przeciwko_Ludzkości
         /// Inicjuje pojedynczy obiekt aplikacji. Jest to pierwszy wiersz napisanego kodu
         /// wykonywanego i jest logicznym odpowiednikiem metod main() lub WinMain().
         /// </summary>
-        public string playerNick { get; set; }
         public string ipAddress { get; set; }
-        public bool areHintsEnabled { get; set; }
 
         public App()
         {

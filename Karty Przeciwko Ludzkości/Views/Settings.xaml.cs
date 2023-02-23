@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Karty_Przeciwko_Ludzkości;
+using Windows.Storage;
+using Windows.UI.Popups;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,8 +27,22 @@ namespace Karty_Przeciwko_Ludzkości.Views
     /// </summary>
     public sealed partial class Settings : Page
     {
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+        object hintsToggled = false;
+        bool isToggled = false;
+        object nickname = "";
         public Settings()
         {
+            if (localSettings.Values["toggleHints"] == null)
+                localSettings.Values["toggleHints"] = true;
+            
+            if (localSettings.Values["nick"] == null)
+                localSettings.Values["nick"] = "nickExample";
+
+            nickname = localSettings.Values["nick"];
+            hintsToggled = localSettings.Values["toggleHints"];
+
             this.InitializeComponent();
         }
 
@@ -44,28 +60,19 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
         private void textBoxNick_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var nick = textBoxNick.Text;
-            ((App)Application.Current).playerNick = nick;
+            nickname = textBoxNick.Text;
+            localSettings.Values["nick"] = nickname;
         }
 
-        private void textBoxNick_Loaded(object sender, RoutedEventArgs e)
+        private void toggleSwitchHints_Toggled(object sender, RoutedEventArgs e)
         {
-            if (((App)Windows.UI.Xaml.Application.Current).playerNick != null)
-                textBoxNick.Text = ((App)Windows.UI.Xaml.Application.Current).playerNick;
-        }
-
-        private void toggleSwitchHints_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (((App)Windows.UI.Xaml.Application.Current).areHintsEnabled)
-                toggleSwitchHints.IsEnabled = true;
-        }
-
-        private void toggleSwitchHints_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (toggleSwitchHints.IsEnabled)
-                ((App)Windows.UI.Xaml.Application.Current).areHintsEnabled = true;
+            if (toggleSwitchHints.IsOn)
+                localSettings.Values["toggleHints"] = true;
             else
-                ((App)Windows.UI.Xaml.Application.Current).areHintsEnabled = false;
+                localSettings.Values["toggleHints"] = false;
+
+            hintsToggled = localSettings.Values["toggleHints"];
+            isToggled = (bool)hintsToggled;
         }
     }
 }

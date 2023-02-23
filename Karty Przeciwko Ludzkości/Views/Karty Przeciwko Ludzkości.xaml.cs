@@ -21,6 +21,7 @@ using Karty_Przeciwko_Ludzkości;
 using Karty_Przeciwko_Ludzkości.Scripts;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,11 +32,13 @@ namespace Karty_Przeciwko_Ludzkości.Views
     /// </summary>
     public sealed partial class Karty_Przeciwko_Ludzkości : Page
     {
+        bool isInfobarEnabled = true;
+
         private List<Card> Cards;
 
         List<Card> selectedWhiteCards = new List<Card>();
         Card blackCard = new Card();
-        string nickname = ((App)Windows.UI.Xaml.Application.Current).playerNick;
+        string nickname;
         List<string> playerNicknames = new List<string>();
         int whoIsHeadPlayer = 0;
         int gameState = 0;
@@ -43,6 +46,10 @@ namespace Karty_Przeciwko_Ludzkości.Views
         WatsonTcpClient tcpClient;
         public Karty_Przeciwko_Ludzkości()
         {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            nickname = localSettings.Values["nick"].ToString();
+            isInfobarEnabled = (bool)localSettings.Values["toggleHints"];
+
             this.InitializeComponent();
             if (((App)Windows.UI.Xaml.Application.Current).ipAddress != null)
             {
