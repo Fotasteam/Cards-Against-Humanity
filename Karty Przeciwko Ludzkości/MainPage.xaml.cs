@@ -37,27 +37,8 @@ namespace Karty_Przeciwko_Ludzkości
     {
         public MainPage()
         {
-            HttpClient client = new HttpClient();
-            Task<string> task = client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/README.md");
-            string result = task.Result;
-            
-            var sr = new StringReader(result);
-            string readmeText = "";
-            int currentLineID = -1;
-            string line = null;
-            while (true)
-            {
-                ++currentLineID;
-                line = sr.ReadLine();
-                if (line != null)
-                {
-                    readmeText += line + Environment.NewLine;
-                }
-                else
-                    break;
-            }
-
             this.InitializeComponent();
+            ContentFrame.Navigate(typeof(Settings));
         }
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
