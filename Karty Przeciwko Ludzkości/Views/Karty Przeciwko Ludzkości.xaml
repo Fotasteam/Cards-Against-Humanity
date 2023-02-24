@@ -10,7 +10,7 @@
     xmlns:scripts="using:Karty_Przeciwko_Ludzkości.Scripts"
     mc:Ignorable="d"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_Loaded">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
         <DataTemplate x:DataType="scripts:Card" x:Key="CardDataTemplate">
@@ -67,7 +67,7 @@
             IsOpen="True" 
             IsClosable="False"
             Severity="Informational"
-            Title="Waiting for host"
+            Title="Awaiting host"
             Message="The game will automatically start once the host initiates it."
             Margin="0,0,10,10"/>
     </Grid>

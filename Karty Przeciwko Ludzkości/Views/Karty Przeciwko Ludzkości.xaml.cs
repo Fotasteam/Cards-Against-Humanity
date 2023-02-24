@@ -130,7 +130,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         {
                             if (int.TryParse(message, out playerAmmount))
                             {
-                                //nic tu
+                                //nic tutaj
                             }
                             else
                             {
@@ -163,10 +163,17 @@ namespace Karty_Przeciwko_Ludzkości.Views
                                     gridView.Items.Add(Cards[i]);
                                 }
                                 gameState = 2;
+
+                                InfoBar.Title = "You are the Card Czar";
+                                InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
+                                InfoBar.Message = "As the Card Czar you need to select one of the cards available. Everyone else will have to select the funniest response available.";
                                 break;
                             }
                             else
                             {
+                                InfoBar.Title = "Awaiting " + playerNicknames[whoIsHeadPlayer];
+                                InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
+                                InfoBar.Message = "The Card Czar ( " + playerNicknames[whoIsHeadPlayer] + " ) is currently chosing a card. You need to wait until he finishes.";
                                 gameState = 4;
                             }
                         }
@@ -174,6 +181,10 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         LoadingProgressRing.IsActive = false;
                         break;
                     case 4:
+                        InfoBar.Title = "Awaiting your choice";
+                        InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
+                        InfoBar.Message = "The Card Czar chose his card, finally! Now, you need to select an 'apropriate' response.";
+
                         CardManager cardManager = new CardManager();
 
                         if (!didPlayerReceiveID)
@@ -200,8 +211,11 @@ namespace Karty_Przeciwko_Ludzkości.Views
                             gameState = 5;
                         }
                         break;
-                    case 3: 
-                        
+                    case 3:
+                        InfoBar.Title = "The results are here!";
+                        InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
+                        InfoBar.Message = "Everyone finished chosing their cards, eventually. Now all you need to do is select the answer you like the most.";
+
                         idOfWhiteCards.Add(int.Parse(message));
 
                         if (idOfWhiteCards.Count == playerAmmount-1)
@@ -237,6 +251,10 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         gridView.Items.Clear();
                         break;
                     case 8:
+                        InfoBar.Title = "Whoa, the results are here!";
+                        InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
+                        InfoBar.Message = "This round is done. If you are the host, start a new round in the console. If you are not, the only thing you can do is wait.";
+
                         CardManager cm = new CardManager();
                         int id = int.Parse(message);
                         Card winnerCard = cm.getWhiteCardFromID(id);
@@ -284,6 +302,10 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                 .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
                 .Show();
+
+            InfoBar.Title = "Connection lost";
+            InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
+            InfoBar.Message = "Read the notification to get more information about the issue.";
         }
 
         SyncResponse SyncRequestReceived(SyncRequest req)
@@ -302,6 +324,10 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 gameState = 3;
                 gridView.Items.Clear();
                 blackCard = selectedCard;
+
+                InfoBar.Title = "Waiting for players to finish deciding.";
+                InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
+                InfoBar.Message = "Your job is done. Now people will select their most-suiting answer. After everyone does so you will be able to vote for your favorite.";
             }
             else if (gameState == 5)
             {
@@ -310,9 +336,17 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 tcpClient.Send(selectedCard.CardID.ToString());
                 gameState = 3;
                 gridView.Items.Clear();
+
+                InfoBar.Title = "Waiting for players to finish deciding.";
+                InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
+                InfoBar.Message = "Great! Now you need to wait for everyone else to select their card.";
             }
             else if (gameState == 7)
             {
+                InfoBar.Title = "Great choice!";
+                InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
+                InfoBar.Message = "Once again, you need to wait for everyone to finish chosing their cards. Once they do, the best card will be revealed!";
+
                 Card selectedCard = gridView.SelectedItem as Card;
 
                 tcpClient.Send(selectedCard.CardID.ToString());
@@ -321,21 +355,6 @@ namespace Karty_Przeciwko_Ludzkości.Views
             }
 
             gridView.Visibility = Visibility.Collapsed;
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            //new ToastContentBuilder()
-            //    .AddArgument("conversationId", 9813)
-
-            //    .AddText("Some text")
-
-            //    .AddButton(new ToastButton()
-            //        .SetContent("Archive")
-            //        .AddArgument("action", "archive"))
-
-            //    .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
-            //    .Show();
         }
     }
 }
