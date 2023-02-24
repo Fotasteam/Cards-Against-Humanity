@@ -22,6 +22,9 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Karty_Przeciwko_Ludzkości.Views;
 using Windows.UI.Xaml.Documents;
+using System.Threading.Tasks;
+using System.Net.Http;
+using Karty_Przeciwko_Ludzkości.Scripts;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x415
 
@@ -34,6 +37,26 @@ namespace Karty_Przeciwko_Ludzkości
     {
         public MainPage()
         {
+            HttpClient client = new HttpClient();
+            Task<string> task = client.GetStringAsync("https://raw.githubusercontent.com/Fotasteam/Cards-Against-Humanity/master/README.md");
+            string result = task.Result;
+            
+            var sr = new StringReader(result);
+            string readmeText = "";
+            int currentLineID = -1;
+            string line = null;
+            while (true)
+            {
+                ++currentLineID;
+                line = sr.ReadLine();
+                if (line != null)
+                {
+                    readmeText += line + Environment.NewLine;
+                }
+                else
+                    break;
+            }
+
             this.InitializeComponent();
         }
 
@@ -51,11 +74,6 @@ namespace Karty_Przeciwko_Ludzkości
                 Type pageType = Type.GetType(pageName);
                 ContentFrame.Navigate(pageType);
             }
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            ContentFrame.Navigate(typeof(Settings));
         }
     }
 }

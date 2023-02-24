@@ -11,6 +11,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+
+        <Grid MinWidth="1000" MaxWidth="1800" Height="800" VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="12"
+              Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Padding="12">
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" x:Name="readMeTextBlock" Text="TextBlock" VerticalAlignment="Center" MaxHeight="700" MaxWidth="1600"/>
+        </Grid>
+
         <NavigationView x:Name="NavView" PaneDisplayMode="LeftCompact"                  
                         IsBackButtonVisible="Collapsed"
                         SelectionChanged="NavView_SelectionChanged">

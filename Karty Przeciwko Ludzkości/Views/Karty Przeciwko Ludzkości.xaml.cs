@@ -167,6 +167,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                                 InfoBar.Title = "You are the Card Czar";
                                 InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                                 InfoBar.Message = "As the Card Czar you need to select one of the cards available. Everyone else will have to select the funniest response available.";
+                                LoadingProgressRing.Visibility = Visibility.Collapsed;
                                 break;
                             }
                             else
@@ -174,6 +175,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                                 InfoBar.Title = "Awaiting " + playerNicknames[whoIsHeadPlayer];
                                 InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                                 InfoBar.Message = "The Card Czar ( " + playerNicknames[whoIsHeadPlayer] + " ) is currently chosing a card. You need to wait until he finishes.";
+                                LoadingProgressRing.Visibility = Visibility.Visible;
                                 gameState = 4;
                             }
                         }
@@ -181,6 +183,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         LoadingProgressRing.IsActive = false;
                         break;
                     case 4:
+                        LoadingProgressRing.Visibility = Visibility.Collapsed;
                         InfoBar.Title = "Awaiting your choice";
                         InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                         InfoBar.Message = "The Card Czar chose his card, finally! Now, you need to select an 'apropriate' response.";
@@ -212,6 +215,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         }
                         break;
                     case 3:
+                        LoadingProgressRing.Visibility = Visibility.Collapsed;
                         InfoBar.Title = "The results are here!";
                         InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                         InfoBar.Message = "Everyone finished chosing their cards, eventually. Now all you need to do is select the answer you like the most.";
@@ -251,6 +255,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         gridView.Items.Clear();
                         break;
                     case 8:
+                        LoadingProgressRing.Visibility = Visibility.Collapsed;
                         InfoBar.Title = "Whoa, the results are here!";
                         InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                         InfoBar.Message = "This round is done. If you are the host, start a new round in the console. If you are not, the only thing you can do is wait.";
@@ -325,6 +330,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 gridView.Items.Clear();
                 blackCard = selectedCard;
 
+                LoadingProgressRing.Visibility = Visibility.Visible;
                 InfoBar.Title = "Waiting for players to finish deciding.";
                 InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                 InfoBar.Message = "Your job is done. Now people will select their most-suiting answer. After everyone does so you will be able to vote for your favorite.";
@@ -337,12 +343,14 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 gameState = 3;
                 gridView.Items.Clear();
 
+                LoadingProgressRing.Visibility = Visibility.Visible;
                 InfoBar.Title = "Waiting for players to finish deciding.";
                 InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                 InfoBar.Message = "Great! Now you need to wait for everyone else to select their card.";
             }
             else if (gameState == 7)
             {
+                LoadingProgressRing.Visibility = Visibility.Visible;
                 InfoBar.Title = "Great choice!";
                 InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                 InfoBar.Message = "Once again, you need to wait for everyone to finish chosing their cards. Once they do, the best card will be revealed!";
