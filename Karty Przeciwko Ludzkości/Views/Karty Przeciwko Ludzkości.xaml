@@ -37,11 +37,6 @@
                   ItemTemplate="{StaticResource CardDataTemplate}" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Padding="12" CornerRadius="12" Visibility="Collapsed" SelectionChanged="gridView_SelectionChanged">
             </GridView>
 
-            <Grid x:Name="gridCzas" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" VerticalAlignment="Top" HorizontalAlignment="Center"
-              Width="100" Height="50" Margin="0,20,0,0" Padding="12" CornerRadius="12" Visibility="Collapsed">
-                <TextBlock x:Name="gridCzasTextBlockCzas" HorizontalAlignment="Center" VerticalAlignment="Center" Text="60" FontSize="25"/>
-            </Grid>
-
             <Grid x:Name="gridBlackCard" Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" VerticalAlignment="Center" HorizontalAlignment="Left"
               Height="600" Width="400" Margin="30,0,0,0" Padding="12" CornerRadius="12" Visibility="Collapsed">
                 <TextBlock x:Name="gridBlackCardTextBlockCardContent" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="350" Margin="0,30,0,0"

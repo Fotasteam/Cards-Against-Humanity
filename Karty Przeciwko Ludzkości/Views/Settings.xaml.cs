@@ -36,12 +36,13 @@ namespace Karty_Przeciwko_Ludzkości.Views
         {
             if (localSettings.Values["toggleHints"] == null)
                 localSettings.Values["toggleHints"] = true;
-            
+
             if (localSettings.Values["nick"] == null)
                 localSettings.Values["nick"] = "nickExample";
 
             nickname = localSettings.Values["nick"];
             hintsToggled = localSettings.Values["toggleHints"];
+            isToggled = (bool)hintsToggled;
 
             this.InitializeComponent();
         }

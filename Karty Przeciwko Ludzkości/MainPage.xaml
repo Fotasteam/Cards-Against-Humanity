@@ -14,8 +14,8 @@
         <muxc:NavigationView x:Name="NavView" PaneDisplayMode="LeftCompact"                  
                         IsBackButtonVisible="Collapsed" SelectionChanged="NavView_SelectionChanged">
             <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Content="Karty Przeciwko Ludzkości" Tag="Karty_Przeciwko_Ludzkości" Icon="Emoji"/>
-                <muxc:NavigationViewItem Content="Information Page" Tag="InfoPage" Icon="ContactInfo" VerticalAlignment="Bottom"/>
+                <muxc:NavigationViewItem Content="Cards Against Humanity" Tag="Karty_Przeciwko_Ludzkości" Icon="Emoji"/>
+                <muxc:NavigationViewItem Content="Information and Rules" Tag="InfoPage" Icon="ContactInfo" VerticalAlignment="Bottom"/>
             </muxc:NavigationView.MenuItems>
             <Grid>
                 <Frame x:Name="ContentFrame"/>
