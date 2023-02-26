@@ -11,15 +11,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <NavigationView x:Name="NavView" PaneDisplayMode="LeftCompact"                  
-                        IsBackButtonVisible="Collapsed"
-                        SelectionChanged="NavView_SelectionChanged">
-            <NavigationView.MenuItems>
-                <NavigationViewItem Content="Karty Przeciwko Ludzkości" Tag="Karty_Przeciwko_Ludzkości" Icon="Emoji"/>
-            </NavigationView.MenuItems>
+        <muxc:NavigationView x:Name="NavView" PaneDisplayMode="LeftCompact"                  
+                        IsBackButtonVisible="Collapsed" SelectionChanged="NavView_SelectionChanged">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="Karty Przeciwko Ludzkości" Tag="Karty_Przeciwko_Ludzkości" Icon="Emoji"/>
+                <muxc:NavigationViewItem Content="Information Page" Tag="InfoPage" Icon="ContactInfo" VerticalAlignment="Bottom"/>
+            </muxc:NavigationView.MenuItems>
             <Grid>
                 <Frame x:Name="ContentFrame"/>
             </Grid>
-        </NavigationView>
+        </muxc:NavigationView>
     </Grid>
 </Page>

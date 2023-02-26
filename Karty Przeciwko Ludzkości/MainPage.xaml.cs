@@ -41,7 +41,7 @@ namespace Karty_Przeciwko_Ludzkości
             ContentFrame.Navigate(typeof(Settings));
         }
 
-        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void NavView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.IsSettingsSelected)
             {
@@ -49,7 +49,7 @@ namespace Karty_Przeciwko_Ludzkości
             }
             else
             {
-                var selectedItem = args.SelectedItem as NavigationViewItem;
+                var selectedItem = args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem;
                 string selectedItemTag = ((string)selectedItem.Tag);
                 string pageName = "Karty_Przeciwko_Ludzkości.Views." + selectedItemTag;
                 Type pageType = Type.GetType(pageName);

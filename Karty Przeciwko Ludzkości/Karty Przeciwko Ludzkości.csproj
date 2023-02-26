@@ -133,6 +133,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Card.cs" />
+    <Compile Include="Views\InfoPage.xaml.cs">
+      <DependentUpon>InfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Karty Przeciwko Ludzkości.xaml.cs">
       <DependentUpon>Karty Przeciwko Ludzkości.xaml</DependentUpon>
     </Compile>
@@ -170,6 +173,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\InfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Karty Przeciwko Ludzkości.xaml">
       <SubType>Designer</SubType>
