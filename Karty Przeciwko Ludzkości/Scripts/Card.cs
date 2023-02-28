@@ -24,6 +24,7 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
         public int CardType { get; set; } //1 - biale, 2 - czarne
         public string CardContent { get; set; }
         public Windows.UI.Xaml.Controls.Symbol CardSymbol { get; set; }
+        public string CardNickname { get; set; }
     }
 
     public class CardManager
@@ -155,8 +156,9 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
             return SelectedCards;
         }
         
-        public List<Card> getWhiteCardsFromID(List<int> idOfWhiteCards)
+        public List<Card> getWhiteCardsFromID(List<int> idOfWhiteCards, List<string> nicknameOfWhiteCards)
         {
+            int idOfNickname = 0;
             List<Card> Cards = new List<Card>();
             List<Card> selectedCards = new List<Card>();
 
@@ -181,7 +183,8 @@ namespace Karty_Przeciwko_Ludzkości.Scripts
 
             foreach (int id in idOfWhiteCards)
             {
-                selectedCards.Add(Cards[id]);
+                selectedCards.Add(new Card { CardID = Cards[id].CardID, CardType = 1, CardSymbol = Cards[id].CardSymbol, CardContent = Cards[id].CardContent, CardNickname = nicknameOfWhiteCards[idOfNickname]});
+                idOfNickname++;
             }
 
             client.Dispose();

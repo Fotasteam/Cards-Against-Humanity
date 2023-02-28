@@ -37,6 +37,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
         private List<Card> Cards;
 
         List<Card> selectedWhiteCards = new List<Card>();
+        bool receivedWhiteID = false;
         Card blackCard = new Card();
         string nickname;
         List<string> playerNicknames = new List<string>();
@@ -116,6 +117,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
         int playerAmmount = 0; //zresetowac to przy restarcie rundy!!!
         bool didPlayerReceiveID = false; //zresetowac -||-
         List<int> idOfWhiteCards = new List<int>();
+        List<string> nicknameOfWhiteCards = new List<string>();
 
         async void MessageReceived(object sender, MessageReceivedEventArgs args)
         {
@@ -220,12 +222,21 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                         InfoBar.Message = "Everyone finished chosing their cards, eventually. Now all you need to do is select the answer you like the most.";
 
-                        idOfWhiteCards.Add(int.Parse(message));
+                        if (!receivedWhiteID)
+                        {
+                            idOfWhiteCards.Add(int.Parse(message));
+                            receivedWhiteID = true;
+                        }
+                        else
+                        {
+                            nicknameOfWhiteCards.Add(message);
+                            receivedWhiteID = false;
+                        }
 
-                        if (idOfWhiteCards.Count == playerAmmount-1)
+                        if (nicknameOfWhiteCards.Count == playerAmmount-1)
                         {
                             CardManager managerCard = new CardManager();
-                            selectedWhiteCards = managerCard.getWhiteCardsFromID(idOfWhiteCards);
+                            selectedWhiteCards = managerCard.getWhiteCardsFromID(idOfWhiteCards, nicknameOfWhiteCards);
 
                             gridView.Items.Clear();
                             gridView.Visibility = Visibility.Visible;
@@ -249,6 +260,8 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         idOfWhiteCards.Clear();
                         playerNicknames.Clear();
                         selectedWhiteCards.Clear();
+                        receivedWhiteID = false;
+                        nicknameOfWhiteCards.Clear();
 
                         gridBlackCard.Visibility = Visibility.Collapsed;
                         gridView.Visibility = Visibility.Collapsed;
@@ -340,6 +353,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 Card selectedCard = gridView.SelectedItem as Card;
 
                 tcpClient.Send(selectedCard.CardID.ToString());
+                tcpClient.Send(nickname);
                 gameState = 3;
                 gridView.Items.Clear();
 

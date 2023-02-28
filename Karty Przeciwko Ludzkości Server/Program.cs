@@ -22,11 +22,13 @@ List<string> nicknames = new List<string>();
 
 WatsonTcpServer server = new WatsonTcpServer(null, 8001);
 
+bool didReceiveNicknameWithWhiteCard = false;
 int gameState = 0;
 int headPlayer = 0;
 bool didServerReceiveIDBlack = false;
 int receivedWhiteCards = 0;
 List<int> listOfEverybodysWhiteCardID = new List<int>();
+List<string> listOfEverybodysWhiteCardNickname = new List<string>();
 bool deactivate = false;
 bool roundActive = true;
 int receivedVotes = 0;
@@ -56,6 +58,8 @@ while (shouldAnotherRoundBegin)
     roundActive = true;
     votingCardsIDs = new int[1500];
     receivedVotes = 0;
+    didReceiveNicknameWithWhiteCard = false;
+    listOfEverybodysWhiteCardNickname.Clear();
 
     while (!deactivate)
     {
@@ -142,8 +146,18 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
             }
             break;
         case 3:
-            listOfEverybodysWhiteCardID.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
-            sendServerMessage("RECEIVED " + args.Client + " WHITE CARD ID, AWAITING EVERYBODYS CHOICE");
+            if (!didReceiveNicknameWithWhiteCard)
+            {
+                listOfEverybodysWhiteCardID.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
+                sendServerMessage("RECEIVED " + args.Client + " WHITE CARD ID, AWAITING EVERYBODYS CHOICE");
+                didReceiveNicknameWithWhiteCard = true;
+            }
+            else
+            {
+                listOfEverybodysWhiteCardNickname.Add(Encoding.UTF8.GetString(args.Data));
+                sendServerMessage("RECEIVED " + args.Client + " PLAYER NICKNAME, AWAITING EVERYBODYS CHOICE");
+                didReceiveNicknameWithWhiteCard = false;
+            }
 
             receivedWhiteCards++;
             if (receivedWhiteCards == guids.Count - 1)
@@ -154,6 +168,11 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                     {
                         server.Send(guid, id.ToString());
                         sendServerMessage("SENDING WHITE CARD ID TO: " + guid + " WHITE ID SENT: " + id);
+                    }
+                    foreach (string nickname in listOfEverybodysWhiteCardNickname)
+                    {
+                        server.Send(guid, nickname);
+                        sendServerMessage("SENDING PLAYER NICKNAME TO: " + guid + " PLAYER NICKNAME SENT: " + nickname);
                     }
                 }
             }
