@@ -247,9 +247,9 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                             gridBlackCardTextBlockCardContent.Text = blackCard.CardContent;
                             gridBlackCard.Visibility = Visibility.Visible;
-                        }
 
-                        gameState = 7;
+                            gameState = 7;
+                        }
                         break;
                     case 6:
                         blackCard = new Card();
@@ -262,6 +262,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         selectedWhiteCards.Clear();
                         receivedWhiteID = false;
                         nicknameOfWhiteCards.Clear();
+                        gridWinCardTextBlockNickname.Text = "Cards Against Humanity";
 
                         gridBlackCard.Visibility = Visibility.Collapsed;
                         gridView.Visibility = Visibility.Collapsed;
@@ -273,16 +274,24 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Informational;
                         InfoBar.Message = "This round is done. If you are the host, start a new round in the console. If you are not, the only thing you can do is wait.";
 
-                        CardManager cm = new CardManager();
-                        int id = int.Parse(message);
-                        Card winnerCard = cm.getWhiteCardFromID(id);
+                        int id;
+                        if (int.TryParse(message, out id))
+                        {
+                            CardManager cm = new CardManager();
+                            id = int.Parse(message);
+                            Card winnerCard = cm.getWhiteCardFromID(id);
 
-                        gridWinCard.Visibility = Visibility.Visible;
-                        gridWinCardTextBlockCardContent.Text = winnerCard.CardContent;
+                            gridWinCardTextBlockCardContent.Text = winnerCard.CardContent;
+                        }
+                        else
+                        {
+                            gridWinCardTextBlockNickname.Text = message;
+                            gridWinCard.Visibility = Visibility.Visible;
+                        }
 
-                        var messageDialog222 = new MessageDialog(message);
-                        messageDialog222.Title = message;
-                        messageDialog222.ShowAsync();
+                        //var messageDialog222 = new MessageDialog(message);
+                        //messageDialog222.Title = message;
+                        //messageDialog222.ShowAsync();
 
                         gameState = 6;
                         break;
@@ -372,6 +381,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 Card selectedCard = gridView.SelectedItem as Card;
 
                 tcpClient.Send(selectedCard.CardID.ToString());
+                tcpClient.Send(selectedCard.CardNickname);
                 gameState = 8;
                 gridView.Items.Clear();
             }

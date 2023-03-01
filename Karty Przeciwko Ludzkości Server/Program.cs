@@ -32,8 +32,10 @@ List<string> listOfEverybodysWhiteCardNickname = new List<string>();
 bool deactivate = false;
 bool roundActive = true;
 int receivedVotes = 0;
+int lastId = 0;
 
 int[] votingCardsIDs = new int[1500];
+string[] votingCardsNickname = new string[1500];
 
 server.Events.ClientConnected += ClientConnected;
 server.Events.ClientDisconnected += ClientDisconnected;
@@ -60,6 +62,8 @@ while (shouldAnotherRoundBegin)
     receivedVotes = 0;
     didReceiveNicknameWithWhiteCard = false;
     listOfEverybodysWhiteCardNickname.Clear();
+    lastId= 0;
+    votingCardsNickname = new string[1500];
 
     while (!deactivate)
     {
@@ -160,7 +164,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
             }
 
             receivedWhiteCards++;
-            if (receivedWhiteCards == guids.Count - 1)
+            if (receivedWhiteCards == (guids.Count - 1)*2)
             {
                 foreach (Guid guid in guids)
                 {
@@ -175,17 +179,26 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                         sendServerMessage("SENDING PLAYER NICKNAME TO: " + guid + " PLAYER NICKNAME SENT: " + nickname);
                     }
                 }
-            }
 
-            gameState = 4;
+                gameState = 4;
+            }
             break;
 
         case 4:
-            votingCardsIDs[int.Parse(Encoding.UTF8.GetString(args.Data))]++;
-
+            int cardIdOut;
             receivedVotes++;
-            sendGameMessage("MESSAGE ISSUED BY " + args.Client + " RECEIVED " + receivedVotes + " OUT OF " + guids.Count + " VOTES");
-            if (receivedVotes == guids.Count)
+            if (int.TryParse(Encoding.UTF8.GetString(args.Data), out cardIdOut))
+            {
+                lastId = cardIdOut;
+                votingCardsIDs[cardIdOut]++;
+                sendGameMessage("MESSAGE ISSUED BY " + args.Client + " RECEIVED " + receivedVotes / 2 + " OUT OF " + guids.Count + " VOTES");
+            }
+            else
+            {
+                votingCardsNickname[lastId] = Encoding.UTF8.GetString(args.Data);
+            }
+            
+            if (receivedVotes == guids.Count*2)
             {
                 int elementWithMostVotes = 0;
                 int indexOfTheElementWithMostVotes = 0;
@@ -202,6 +215,12 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
                 {
                     server.Send(guid ,indexOfTheElementWithMostVotes.ToString());
                 }
+
+                foreach(Guid guid in guids)
+                {
+                    server.Send(guid, votingCardsNickname[indexOfTheElementWithMostVotes]);
+                }
+
                 sendServerMessage("SENDING VOTING RESULTS TO EVERYONE");
                 Console.WriteLine();
                 sendGameMessage("TO START ANOTHER ROUND PRESS ENTER TWICE");

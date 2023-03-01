@@ -50,7 +50,7 @@
                 <TextBlock x:Name="gridWinCardTextBlockCardContent" HorizontalAlignment="Center" VerticalAlignment="Top" Height="400" Width="350" Margin="0,30,0,0"
                        Text="Why is the sun black?" FontSize="40" TextWrapping="Wrap"/>
                 <SymbolIcon Symbol="Accept" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,0,0,5"/>
-                <TextBlock Text="Cards Against Humanity" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="20" Margin="0,0,5,5"/>
+                <TextBlock x:Name="gridWinCardTextBlockNickname" Text="Cards Against Humanity" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="20" Margin="0,0,5,5"/>
             </Grid>
         </Grid>
 

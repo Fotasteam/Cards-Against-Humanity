@@ -9,7 +9,7 @@
   <Identity
     Name="2b51e8b6-1b8f-49f3-86e4-c889c7d77d95"
     Publisher="CN=Maksymilian Stawicki"
-    Version="1.1.14.0" />
+    Version="1.1.16.0" />
 
   <Properties>
     <DisplayName>Karty Przeciwko Ludzkości Instalator</DisplayName>
