@@ -150,6 +150,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
             }
             break;
         case 3:
+            //server most likely does not send the nickname properly to the client
             if (!didReceiveNicknameWithWhiteCard)
             {
                 listOfEverybodysWhiteCardID.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
