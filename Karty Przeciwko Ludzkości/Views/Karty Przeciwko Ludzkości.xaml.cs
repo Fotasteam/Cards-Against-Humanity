@@ -22,6 +22,7 @@ using Karty_Przeciwko_Ludzkości.Scripts;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using System.Threading.Tasks;
 
 //Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -311,7 +312,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
             //    .Show();
         }
 
-        void ServerDisconnected(object sender, DisconnectionEventArgs args)
+        async void ServerDisconnected(object sender, DisconnectionEventArgs args)
         {
             new ToastContentBuilder()
                 .AddArgument("conversationId", 9813)
@@ -326,9 +327,12 @@ namespace Karty_Przeciwko_Ludzkości.Views
                 .AddAudio(new Uri("ms-appx:///Audio/NotificationSound.mp3"))
                 .Show();
 
-            InfoBar.Title = "Connection lost";
-            InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
-            InfoBar.Message = "Read the notification to get more information about the issue.";
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                InfoBar.Title = "Connection lost";
+                InfoBar.Severity = Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error;
+                InfoBar.Message = "Read the notification to get more information about the issue.";
+            });
         }
 
         SyncResponse SyncRequestReceived(SyncRequest req)
