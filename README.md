@@ -18,6 +18,8 @@ Written in .NET C# as a simple Console Application. It also uses the [WatsonTCP]
 
 ## Game rules:
 
+The best place to read the rules is either the [Cards Against Humanity Website](https://www.cardsagainsthumanity.com/) or the [official pdf rulebook](https://cdn.sanity.io/files/vc07edlh/production/024751665e12163130085836650f4f7387e2de0a.pdf). Rules of the original are mostly the same. The only difference is that in the card game only the Card Czar can choose the best answer. In my adaptation eveyrone can vote who they think answered the best.
+
 ### Game roles:
 
 There are two types of players you can become:
