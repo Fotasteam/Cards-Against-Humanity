@@ -36,12 +36,13 @@ There are two types of players you can become:
 
 The game works relatively simple. There is a variable called **gameState**, which helps the game understand what it has to do. Values for **gameState** are different for the server and the client.
 
-### The client:
+### The server:
 
 1. **gameState = 0** - Awaiting for clients. In this phase, the server waits for people to connect.
 2. **gameState = 1** - Selecting the Card Czar. In this stage, the server selects a random player to become the Card Czar. Next, server sends a message to every client, sending player nicknames and telling them who is the Card Czar.
 3. **gameState = 2** - Awaiting white cards (answer cards) from clients. The server waits for every normal player (not counting the Card Czar) to share the chosen white card. After everyone shared their white card, the server sends the list of white cards (and whose card it is) to everyone.
 4. **gameState = 4** - Awaiting votes from clients. The server waits for everyone (including the Card Czar) to send a message telling which card they voted for. Afterwards, it sends this information to everyone else.
 
-### The server:
+### The client:
 
+to be continued...
