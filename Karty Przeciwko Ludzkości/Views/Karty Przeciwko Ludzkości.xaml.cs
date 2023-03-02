@@ -287,13 +287,9 @@ namespace Karty_Przeciwko_Ludzkości.Views
                         {
                             gridWinCardTextBlockNickname.Text = message;
                             gridWinCard.Visibility = Visibility.Visible;
+
+                            gameState = 6;
                         }
-
-                        //var messageDialog222 = new MessageDialog(message);
-                        //messageDialog222.Title = message;
-                        //messageDialog222.ShowAsync();
-
-                        gameState = 6;
                         break;
                 }
             });

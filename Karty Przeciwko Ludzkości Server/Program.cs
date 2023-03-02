@@ -150,7 +150,6 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
             }
             break;
         case 3:
-            //server most likely does not send the nickname properly to the client
             if (!didReceiveNicknameWithWhiteCard)
             {
                 listOfEverybodysWhiteCardID.Add(int.Parse(Encoding.UTF8.GetString(args.Data)));
@@ -192,7 +191,7 @@ void MessageReceived(object sender, MessageReceivedEventArgs args)
             {
                 lastId = cardIdOut;
                 votingCardsIDs[cardIdOut]++;
-                sendGameMessage("MESSAGE ISSUED BY " + args.Client + " RECEIVED " + receivedVotes / 2 + " OUT OF " + guids.Count + " VOTES");
+                sendGameMessage("MESSAGE ISSUED BY " + args.Client + " RECEIVED " + receivedVotes / 2 + 1 + " OUT OF " + guids.Count + " VOTES");
             }
             else
             {
