@@ -267,6 +267,7 @@ namespace Karty_Przeciwko_Ludzkości.Views
 
                         gridBlackCard.Visibility = Visibility.Collapsed;
                         gridView.Visibility = Visibility.Collapsed;
+                        gridWinCard.Visibility = Visibility.Collapsed;
                         gridView.Items.Clear();
                         break;
                     case 8:
