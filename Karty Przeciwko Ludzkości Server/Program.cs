@@ -67,7 +67,7 @@ while (shouldAnotherRoundBegin)
 
     while (!deactivate)
     {
-        if ((Console.ReadKey().Key != ConsoleKey.Enter || hasAtLeastOneRoundHappened) && guids.Count >= 2) deactivate = true;
+        if (Console.ReadKey().Key != ConsoleKey.Enter || hasAtLeastOneRoundHappened) deactivate = true;
 
         headPlayer = 0;
         gameState = 1;

@@ -9,10 +9,10 @@
   <Identity
     Name="2b51e8b6-1b8f-49f3-86e4-c889c7d77d95"
     Publisher="CN=Maksymilian Stawicki"
-    Version="1.1.16.0" />
+    Version="2.0.0.0" />
 
   <Properties>
-    <DisplayName>Karty Przeciwko Ludzkości Instalator</DisplayName>
+    <DisplayName>Cards Against Humanity Installer</DisplayName>
     <PublisherDisplayName>Maksymilian Stawicki</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -31,14 +31,16 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="KartyInstaller"
-        Description="Instalator manualny projektu Karty Przeciwko Ludzkości"
+        DisplayName="Cards Against Humanity"
+        Description="Cards Against Humanity is a game based-on a card game with the same title and rules. Go to cardsagainsthumanity.com to check it out!"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png"/>
         <uap:SplashScreen Image="Images\SplashScreen.png" />
         <uap:LockScreen BadgeLogo="Images\BadgeLogo.png" Notification="badge"/>
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="landscape"/></uap:InitialRotationPreference>
       </uap:VisualElements>
     </Application>
   </Applications>
@@ -47,5 +49,6 @@
     <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
     <Capability Name="internetClientServer"/>
+    <Capability Name="privateNetworkClientServer"/>
   </Capabilities>
 </Package>
