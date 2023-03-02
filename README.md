@@ -22,12 +22,12 @@ Written in .NET C# as a simple Console Application. It also uses the [WatsonTCP]
 
 There are two types of players you can become:
 
-- ** The Card Czar: Your job is to choose a card everyone has to answer.
-- ** Normal player: Your job is to answer the Card Czars' card.
+- **The Card Czar**: Your job is to choose a card everyone has to answer.
+- **Normal player**: Your job is to answer the Card Czars' card.
 
 ### How does the round playout:
 
-1. ** Firstly, after everyone joins the server and the host starts the game, one of the players will be chosen as the Card Czar. Everyone has to wait until he chooses a card.
-2. ** Next, every normal player will be given 10 random cards. They need to select the best answer.
-3. ** After everyone has finally selected a card, everyone (including the Card Czar) needs to decide whose answer they like the most.
-4. ** Lastly, the most-voted card will be revealed.
+1. Firstly, after everyone joins the server and the host starts the game, one of the players will be chosen as the Card Czar. Everyone has to wait until he chooses a card.
+2. Next, every normal player will be given 10 random cards. They need to select the best answer.
+3. After everyone has finally selected a card, everyone (including the Card Czar) needs to decide whose answer they like the most.
+4. Lastly, the most-voted card will be revealed.
