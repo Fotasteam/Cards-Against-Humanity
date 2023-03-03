@@ -1,8 +1,8 @@
 # Cards Against Humanity
 
-[Cards Against Humanity](https://www.cardsagainsthumanity.com/) is a social game based-on a card game with the same title. 
-
 ![Cards Against Humanity Settings Page](README-Images/settingsPage.png)
+
+[Cards Against Humanity](https://www.cardsagainsthumanity.com/) is a social game based-on a card game with the same title. 
 
 ## Information about the project:
 
@@ -12,9 +12,13 @@ I do not own any rights to the card game. It is just a free-time project i've be
 
 ### The client:
 
+![Cards Against Humanity Game](README-Images/client-side.png)
+
 Written in C# UWP using the [WinUI 2.8.2 Framework](https://microsoft.github.io/microsoft-ui-xaml/). The client also uses the [Microsoft UWP Toolkit](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) and the [WatsonTCP](https://github.com/jchristn/WatsonTcp) for the TCP/IP connection.
 
 ### The server:
+
+![Cards Against Humanity Server](README-Images/server-side.png)
 
 Written in .NET C# as a simple Console Application. It also uses the [WatsonTCP](https://github.com/jchristn/WatsonTcp) framework.
 
