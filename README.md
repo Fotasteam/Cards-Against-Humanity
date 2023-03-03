@@ -2,7 +2,7 @@
 
 ![Cards Against Humanity Settings Page](README-Images/settingsPage.png)
 
-[Cards Against Humanity](https://www.cardsagainsthumanity.com/) is a social game based-on a card game with the same title. 
+Cards Against Humanity is a social game based-on a [card game with the same title](https://www.cardsagainsthumanity.com/). 
 
 ## Information about the project:
 
