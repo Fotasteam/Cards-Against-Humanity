@@ -62,4 +62,4 @@ The game works relatively simple. There is a variable called **gameState**, whic
 6. **gameState = 5** - Waiting for the players choice. In this stage, the client awaits input from the player. They need to choose a white card. Afterwards, their card will be sent to the server.
 7. **gameState = 6** - Waiting for the round restart command. The client waits for the server to send a round restart request.
 8. **gameState = 7** - Voting for the best cards. In this stage, the client awaits for the players input. Everyone (including the Card Czar) will have to choose a single card.
-9 **gameState = 8** - Waiting for everyones vote. Waiting for the servers message, which will be sent out after everyone finishes voting.
+9. **gameState = 8** - Waiting for everyones vote. Waiting for the servers message, which will be sent out after everyone finishes voting.
