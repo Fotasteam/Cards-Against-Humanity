@@ -20,7 +20,7 @@ Written in C# UWP using the [WinUI 2.8.2 Framework](https://microsoft.github.io/
 
 ![Cards Against Humanity Server](README-Images/server-side.png)
 
-Written in .NET C# as a simple Console Application. It also uses the [WatsonTCP](https://github.com/jchristn/WatsonTcp) framework.
+Written in .NET C# as a simple Console Application. It also uses the [WatsonTCP](https://github.com/jchristn/WatsonTcp) API.
 
 ## Game rules:
 
